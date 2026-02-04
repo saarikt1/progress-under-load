@@ -39,6 +39,21 @@ Deploy the existing Next.js app to Cloudflare Pages using OpenNext, keep it lock
 - Record deployed URL in the plan after first deploy.
 - Note: Cloudflare Pages `_headers` can be used as an alternative or supplement, but the source of truth is `next.config.ts` for portability.
 
+## Cloudflare Pages Setup Checklist
+- Create a Pages project and connect the `main` branch.
+- Build command: `npm run build:cf`.
+- Build output directory: verify with OpenNext output (commonly `.open-next`) before saving.
+- Ensure Pages Functions/Workers output is enabled (per OpenNext guidance).
+- Add environment variables only if/when needed (none required in Phase 1).
+- Lock down the site using Cloudflare Access or password protection.
+- Capture the preview and production URLs in this document after first deploy.
+
+## Deploy Notes
+- OpenNext build output should include `.open-next/worker.js` and `.open-next/assets`.
+- After deploy, confirm:
+  - The dashboard renders.
+  - Security headers are present (check `Content-Security-Policy`, `X-Frame-Options`, `Referrer-Policy`, `X-Content-Type-Options`, `Permissions-Policy`, and `Strict-Transport-Security` in prod).
+
 ## Tests (TDD)
 - Add a unit test for the headers helper to assert required keys and non-empty values.
 - Run `npm test` to confirm red before implementation, then green after.
