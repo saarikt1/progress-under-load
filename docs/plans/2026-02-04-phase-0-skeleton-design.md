@@ -8,7 +8,8 @@ Deliver a local, runnable Next.js App Router skeleton with a visible dashboard s
 - TypeScript enabled by default.
 - Basic linting via `eslint-config-next`.
 - Add Prettier now for consistent formatting (minimal config).
-- Testing: `vitest` + `@testing-library/react` for fast UI smoke tests.
+- Testing: `vitest` (v4) + `@testing-library/react` for fast UI smoke tests.
+- React Compiler enabled (create-next-app default).
 
 ## App Structure
 - `src/app/layout.tsx` provides a global shell (header + nav + main).
@@ -37,3 +38,6 @@ Run tests to see red, then implement and rerun for green.
 - No auth, database, or uploads.
 - No design system or charting yet.
 - No API routes beyond built-in Next.js defaults.
+
+## Implementation Status
+Complete as of February 4, 2026. Tests pass and the shell renders with route stubs.

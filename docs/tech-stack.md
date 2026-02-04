@@ -5,12 +5,15 @@ This document highlights the proposed technologies for the app and why they’re
 ## Chosen Stack (current)
 
 - Framework: Next.js (React) + TypeScript
+- React Compiler: enabled (Next.js default)
 - Hosting/runtime: Cloudflare Pages + Pages Functions
 - Database: Cloudflare D1 (SQLite) + Wrangler migrations
-- UI: Tailwind CSS + Radix UI primitives + `shadcn/ui`-style copy-in components
+- UI (Phase 0.5 target): Tailwind CSS + Radix UI primitives + `shadcn/ui`-style copy-in components
 - Charts: Recharts
 - Validation: Zod
 - Forms: React Hook Form (use where it helps; keep simple forms simple)
+- Testing: Vitest + Testing Library
+- Formatting: Prettier
 - AI: provider-agnostic server-only adapter (start with one provider via env vars)
 
 ## Hosting & Runtime
@@ -42,6 +45,9 @@ Why this combo works well for your goals:
 - Accessible primitives (Radix) without committing to a heavy themed component library.
 - Easy to “brand later” by centralizing tokens (CSS variables) and adjusting component styles without fighting a framework theme system.
 - Keeps bundle size and visual complexity under control.
+
+**Phase 0 note**
+- Phase 0 uses lightweight handcrafted CSS in `src/app/globals.css` to ship the shell before adopting Tailwind in Phase 0.5.
 
 **Alternatives**
 - Material UI (MUI): very complete, but heavier and you often end up “fighting the theme” to make it look truly minimal.

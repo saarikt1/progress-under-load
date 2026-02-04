@@ -5,9 +5,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 0 — Project Skeleton (local dev)
 
 **Outcome:** You can run the app locally and deploy a placeholder UI.
+**Status:** Complete (February 4, 2026).
 
 - Create Next.js app structure (Cloudflare Pages compatible).
 - Add TypeScript + basic linting/formatting (keep it simple).
+- Enable React Compiler (create-next-app default).
+- Add Vitest + Testing Library for shell smoke tests.
 - Add base layout + navigation shell (Dashboard, Upload, Chat, Admin).
 - Add empty-state Dashboard with 4 default lift cards (static placeholders).
 - Add basic error boundary / not-found.
@@ -15,6 +18,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 **Validation**
 - `npm run dev` shows dashboard shell on mobile/desktop.
 - Route stubs render: `/`, `/chat`, `/admin`, `/upload` (or modal).
+- `npm test` passes.
 
 **Manual input**
 - None.
