@@ -20,6 +20,14 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Cloudflare Pages (OpenNext)
+
+- Build command: `npm run build:cf`
+- Worker entry: `.open-next/worker.js`
+- Static assets: `.open-next/assets`
+- Wrangler config: `wrangler.toml`
+- Lock down preview/prod with Cloudflare Access or password protection until auth lands.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
