@@ -7,7 +7,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 **Outcome:** You can run the app locally and deploy a placeholder UI.
 **Status:** Complete (February 4, 2026).
 
-- Create Next.js app structure (Cloudflare Pages compatible).
+- Create Next.js app structure (Cloudflare Workers compatible).
 - Add TypeScript + basic linting/formatting (keep it simple).
 - Enable React Compiler (create-next-app default).
 - Add Vitest + Testing Library for shell smoke tests.
@@ -72,7 +72,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - `/api/health` returns OK and indicates DB is reachable.
 
 **Manual input**
-- Create D1 DB(s) in Cloudflare and wire bindings to the Pages project (preview + production).
+- Create D1 DB(s) in Cloudflare and wire bindings to the Workers project (preview + production).
 
 ## Phase 3 — Authentication (email+password + sessions)
 
