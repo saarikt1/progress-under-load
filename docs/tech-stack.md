@@ -6,8 +6,8 @@ This document highlights the proposed technologies for the app and why they’re
 
 - Framework: Next.js (React) + TypeScript
 - React Compiler: enabled (Next.js default)
-- Hosting/runtime: Cloudflare Workers (OpenNext)
-- Database: Cloudflare D1 (SQLite) + Wrangler migrations
+- Hosting/runtime: Cloudflare Workers (OpenNext Cloudflare adapter)
+- Database: Cloudflare D1 (SQLite) + Wrangler SQL migrations (prod/preview/local)
 - UI (Phase 0.5 target): Tailwind CSS + Radix UI primitives + `shadcn/ui`-style copy-in components
 - Charts: Recharts
 - Validation: Zod
@@ -19,7 +19,7 @@ This document highlights the proposed technologies for the app and why they’re
 ## Hosting & Runtime
 
 - Cloud hosting: Cloudflare Workers (OpenNext) for app runtime and static assets.
-- Database: Cloudflare D1 (SQLite).
+- Database: Cloudflare D1 (SQLite) with prod/preview/local environments.
 - CLI tooling: Wrangler (for Workers deploys, D1, and bindings).
 
 Why:
@@ -75,8 +75,8 @@ Suggested options (pick one):
 
 ## Data Access & Migrations
 
-- D1 access via Cloudflare-provided bindings from server routes.
-- Migrations tracked in-repo and applied via Wrangler.
+- D1 access via Cloudflare-provided bindings from server routes (via OpenNext Cloudflare context).
+- Migrations tracked as raw SQL in-repo and applied via Wrangler (prod/preview/local).
 
 ## AI Coach / LLM Integration
 
