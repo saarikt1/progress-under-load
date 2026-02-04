@@ -42,17 +42,20 @@ This roadmap breaks the project into phases that each deliver something usable/v
 
 ## Phase 1 — Cloudflare Setup + First Deploy
 
-**Outcome:** Public (but locked down) deployed site on Cloudflare Pages.
+**Outcome:** Public (but locked down) deployed site on Cloudflare Workers (OpenNext).
+**Status:** Complete (February 4, 2026).
 
-- Create Cloudflare Pages project from the repo (preview + production).
-- Configure Next.js on Pages (either Cloudflare’s native Next.js support, or the recommended adapter for Pages at the time).
+- Create Cloudflare Workers project from the repo.
+- Configure OpenNext build + Wrangler deploy commands.
 - Add baseline security headers (CSP baseline, etc.).
 
 **Validation**
 - Deployed URL loads the placeholder dashboard.
+- Deployed URL: `https://progress-under-load.tommisaarikangas.workers.dev/`.
 
 **Manual input**
-- Cloudflare account + Pages project.
+- Cloudflare account + Workers project.
+- Ensure Workers.dev subdomain is enabled.
 - Decide the production domain (optional now).
 
 ## Phase 2 — D1 Schema + Migrations

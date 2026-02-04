@@ -6,7 +6,7 @@ This document highlights the proposed technologies for the app and why they’re
 
 - Framework: Next.js (React) + TypeScript
 - React Compiler: enabled (Next.js default)
-- Hosting/runtime: Cloudflare Pages + Pages Functions
+- Hosting/runtime: Cloudflare Workers (OpenNext)
 - Database: Cloudflare D1 (SQLite) + Wrangler migrations
 - UI (Phase 0.5 target): Tailwind CSS + Radix UI primitives + `shadcn/ui`-style copy-in components
 - Charts: Recharts
@@ -18,9 +18,9 @@ This document highlights the proposed technologies for the app and why they’re
 
 ## Hosting & Runtime
 
-- Cloud hosting: Cloudflare Pages (frontend) + Pages Functions (backend routes).
+- Cloud hosting: Cloudflare Workers (OpenNext) for app runtime and static assets.
 - Database: Cloudflare D1 (SQLite).
-- CLI tooling: Wrangler (for D1 + bindings + local dev workflows).
+- CLI tooling: Wrangler (for Workers deploys, D1, and bindings).
 
 Why:
 - One deployable surface area (site + API routes together).

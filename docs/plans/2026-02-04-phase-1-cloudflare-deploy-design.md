@@ -1,7 +1,7 @@
 # Phase 1 — Cloudflare Setup + First Deploy Design
 
 ## Goal
-Deploy the existing Next.js app to Cloudflare Pages using OpenNext, keep it locked down while pre-auth, and add baseline security headers in code so they’re versioned and portable.
+Deploy the existing Next.js app to Cloudflare Workers using OpenNext, keep it locked down while pre-auth, and add baseline security headers in code so they’re versioned and portable.
 
 ## Key Decisions
 - Use OpenNext for Cloudflare (Node.js runtime) to avoid Edge-only limitations and deprecated adapters.
@@ -11,7 +11,7 @@ Deploy the existing Next.js app to Cloudflare Pages using OpenNext, keep it lock
 - Disable `x-powered-by` for baseline hardening.
 
 ## Architecture & Runtime
-- Cloudflare Pages serves static assets; Pages Functions run the Next.js server output produced by OpenNext.
+- Cloudflare Workers runs the OpenNext server bundle and serves static assets via the OpenNext assets binding.
 - OpenNext configuration and build outputs follow current OpenNext docs (verify exact file names and output paths before implementation).
 - Add `wrangler.toml` (or equivalent) to capture project settings and prepare for future bindings (D1 in Phase 2).
 - Use `npx opennextjs-cloudflare build` for the build step and emit the worker at `.open-next/worker.js` (verify against current OpenNext docs).
@@ -32,21 +32,20 @@ Deploy the existing Next.js app to Cloudflare Pages using OpenNext, keep it lock
 - Disable `x-powered-by` in `next.config.ts` (`poweredByHeader: false`).
 
 ## Manual Cloudflare Setup
-- Create a Cloudflare Pages project pointing at the repo.
-- Set build command and output directory per OpenNext guidance.
-- Configure Preview + Production environments.
+- Create a Cloudflare Workers project pointing at the repo.
+- Set build command and deploy command per OpenNext guidance.
+- Ensure the Workers.dev subdomain is enabled and resolves.
 - Lock down access during early phases (Cloudflare Access or password protection).
 - Record deployed URL in the plan after first deploy.
-- Note: Cloudflare Pages `_headers` can be used as an alternative or supplement, but the source of truth is `next.config.ts` for portability.
 
-## Cloudflare Pages Setup Checklist
-- Create a Pages project and connect the `main` branch.
+## Cloudflare Workers Setup Checklist
+- Create a Workers project and connect the `main` branch.
 - Build command: `npm run build:cf`.
-- Build output directory: verify with OpenNext output (commonly `.open-next`) before saving.
-- Ensure Pages Functions/Workers output is enabled (per OpenNext guidance).
+- Deploy command: `npx wrangler deploy`.
+- Ensure the Workers.dev subdomain is enabled and resolves.
 - Add environment variables only if/when needed (none required in Phase 1).
 - Lock down the site using Cloudflare Access or password protection.
-- Capture the preview and production URLs in this document after first deploy.
+- Capture the Workers.dev URL in this document after first deploy.
 
 ## Deploy Notes
 - OpenNext build output should include `.open-next/worker.js` and `.open-next/assets`.
@@ -62,6 +61,7 @@ Deploy the existing Next.js app to Cloudflare Pages using OpenNext, keep it lock
 - `npm test` passes locally.
 - Deployed URL renders the placeholder dashboard.
 - Security headers appear in the response (manual check via devtools or `curl`).
+- Deployed URL: `https://progress-under-load.tommisaarikangas.workers.dev/`.
 
 ## Non-Goals
 - No new product features, data, or auth.
@@ -69,4 +69,4 @@ Deploy the existing Next.js app to Cloudflare Pages using OpenNext, keep it lock
 - No API routes or middleware beyond what already exists.
 
 ## Status
-Planned as of February 4, 2026.
+Complete as of February 4, 2026.
