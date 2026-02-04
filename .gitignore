@@ -48,6 +48,7 @@ pnpm-debug.log*
 
 # misc build tools
 .turbo
+.open-next
 
 # typescript
 *.tsbuildinfo
