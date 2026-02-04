@@ -18,3 +18,7 @@ For any behavior change (features, bug fixes, security changes, parsing, data lo
 ## Errors, Warnings, and Access Issues
 
 When errors, warnings, or access issues appear and the cause is not clear, stop and ask for guidance before proceeding. Resolve the issue immediately rather than choosing an alternate path.
+
+## Commit Messages
+
+Always use Conventional Commits format (type[optional scope]: summary).
