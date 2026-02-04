@@ -15,3 +15,6 @@ For any behavior change (features, bug fixes, security changes, parsing, data lo
 - Mechanical refactors with no behavior change (still run the relevant tests).
 - Styling-only changes that cannot be meaningfully tested (still add a minimal sanity test when practical).
 
+## Errors, Warnings, and Access Issues
+
+When errors, warnings, or access issues appear and the cause is not clear, stop and ask for guidance before proceeding. Resolve the issue immediately rather than choosing an alternate path.
