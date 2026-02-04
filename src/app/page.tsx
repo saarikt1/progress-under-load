@@ -1,34 +1,46 @@
 import { DEFAULT_LIFTS } from "@/lib/constants";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function Home() {
   return (
-    <section className="page">
-      <header className="page-header">
-        <div>
-          <p className="eyebrow">Welcome back</p>
-          <h1>Dashboard</h1>
-          <p className="muted">
+    <section className="space-y-8">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-2">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Welcome back
+          </p>
+          <h1 className="text-3xl font-semibold sm:text-4xl">Dashboard</h1>
+          <p className="max-w-xl text-sm text-muted-foreground">
             Upload a CSV export to unlock trends, PRs, and coaching insights.
           </p>
         </div>
-        <button className="action" type="button">
-          Upload CSV
-        </button>
+        <Button type="button">Upload CSV</Button>
       </header>
 
-      <div className="lift-grid">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {DEFAULT_LIFTS.map((lift) => (
-          <article key={lift} className="card">
-            <div className="card-header">
-              <h2 className="card-title">{lift}</h2>
-              <span className="card-pill">Empty</span>
-            </div>
-            <p className="muted">No sessions yet. Import to see the last 7 days.</p>
-            <div className="card-footer">
-              <span className="stat-label">Last session</span>
-              <span className="stat-value">--</span>
-            </div>
-          </article>
+          <Card key={lift}>
+            <CardHeader className="flex-row items-center justify-between space-y-0">
+              <CardTitle className="text-base">{lift}</CardTitle>
+              <span className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">
+                Empty
+              </span>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm text-muted-foreground">
+              <p>No sessions yet. Import to see the last 7 days.</p>
+            </CardContent>
+            <CardFooter className="justify-between text-xs uppercase tracking-[0.16em] text-muted-foreground">
+              <span>Last session</span>
+              <span className="text-sm font-medium normal-case text-foreground">--</span>
+            </CardFooter>
+          </Card>
         ))}
       </div>
     </section>

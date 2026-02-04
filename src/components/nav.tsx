@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/", label: "Dashboard" },
@@ -9,11 +10,11 @@ const navItems = [
 
 export default function Nav() {
   return (
-    <nav className="nav" aria-label="Primary">
+    <nav className="flex flex-wrap gap-2" aria-label="Primary">
       {navItems.map((item) => (
-        <Link key={item.href} className="nav-link" href={item.href}>
-          {item.label}
-        </Link>
+        <Button key={item.href} asChild variant="secondary" size="sm">
+          <Link href={item.href}>{item.label}</Link>
+        </Button>
       ))}
     </nav>
   );

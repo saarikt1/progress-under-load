@@ -26,6 +26,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 0.5 — UI Foundation (design system + charts baseline)
 
 **Outcome:** Consistent UI primitives and one working placeholder chart component.
+**Status:** Complete (February 4, 2026).
 
 - Set up Tailwind CSS + Radix primitives + `shadcn/ui`-style components.
 - Set up global styling tokens (CSS variables for colors, spacing, radii).

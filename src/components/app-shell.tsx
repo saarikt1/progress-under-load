@@ -7,15 +7,15 @@ type AppShellProps = {
 
 export default function AppShell({ children }: AppShellProps) {
   return (
-    <div className="app">
-      <header className="header">
-        <div className="brand">
-          <span className="brand-title">Progress Under Load</span>
-          <span className="brand-subtitle">Gym Training Analyzer</span>
+    <div className="min-h-screen px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+      <header className="flex flex-col gap-4 rounded-[calc(var(--radius)+0.5rem)] border bg-card px-6 py-5 shadow-soft sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1">
+          <p className="text-sm font-semibold tracking-wide">Progress Under Load</p>
+          <p className="text-sm text-muted-foreground">Gym Training Analyzer</p>
         </div>
         <Nav />
       </header>
-      <main className="main">{children}</main>
+      <main className="mx-auto mt-10 w-full max-w-6xl">{children}</main>
     </div>
   );
 }

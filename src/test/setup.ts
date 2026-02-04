@@ -15,3 +15,31 @@ vi.mock("next/font/google", () => ({
   Geist: () => ({ variable: "--mock-geist-sans" }),
   Geist_Mono: () => ({ variable: "--mock-geist-mono" }),
 }));
+
+vi.mock("recharts", async () => {
+  const actual = await vi.importActual<typeof import("recharts")>("recharts");
+
+  return {
+    ...actual,
+    ResponsiveContainer: ({
+      width = 600,
+      height = 300,
+      children,
+    }: {
+      width?: number | string;
+      height?: number | string;
+      children: React.ReactNode | ((size: { width: number; height: number }) => React.ReactNode);
+    }) => {
+      const resolvedWidth = typeof width === "number" ? width : 600;
+      const resolvedHeight = typeof height === "number" ? height : 300;
+
+      return React.createElement(
+        "div",
+        { style: { width: resolvedWidth, height: resolvedHeight } },
+        typeof children === "function"
+          ? children({ width: resolvedWidth, height: resolvedHeight })
+          : children
+      );
+    },
+  };
+});
