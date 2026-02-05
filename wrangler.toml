@@ -6,3 +6,16 @@ compatibility_flags = ["nodejs_compat"]
 [assets]
 binding = "ASSETS"
 directory = ".open-next/assets"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "progress-under-load-prod"
+database_id = "04017f87-742f-48c3-bfe7-ea4eaa602eec"
+migrations_dir = "migrations"
+
+[env.preview]
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "progress-under-load-preview"
+database_id = "2d1eec24-ee18-4150-be70-e85edf295ffe"
+migrations_dir = "migrations"

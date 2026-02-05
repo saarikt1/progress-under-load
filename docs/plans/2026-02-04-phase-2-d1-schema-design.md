@@ -44,4 +44,4 @@ Set up Cloudflare D1 with prod + preview + local environments, define the initia
 - `npm test` passes.
 
 ## Status
-Planned as of February 4, 2026.
+Complete as of February 5, 2026.

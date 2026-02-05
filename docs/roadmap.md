@@ -61,6 +61,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 2 — D1 Schema + Migrations
 
 **Outcome:** Durable database exists and the app can read/write a simple health record.
+**Status:** Complete (February 5, 2026).
 
 - Install and configure Wrangler for local dev + migrations.
 - Create D1 database(s): `prod` + `preview` (recommended).

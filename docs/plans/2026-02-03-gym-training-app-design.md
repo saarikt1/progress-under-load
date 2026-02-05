@@ -1,6 +1,6 @@
-# Gym Training Analyzer — Design (Cloudflare Pages + D1)
+# Gym Training Analyzer — Design (Cloudflare Workers + D1)
 
-Single-user-first web app for analyzing gym training CSV exports, with optional additional users via invite codes. Hosted on Cloudflare Pages (Next.js) with backend routes via Pages Functions and storage in Cloudflare D1 (SQLite).
+Single-user-first web app for analyzing gym training CSV exports, with optional additional users via invite codes. Hosted on Cloudflare Workers via OpenNext (Next.js) with route handlers and storage in Cloudflare D1 (SQLite).
 
 ## Goals
 
@@ -22,7 +22,7 @@ Single-user-first web app for analyzing gym training CSV exports, with optional 
 ## Platform
 
 - Frontend: Next.js (React).
-- Hosting: Cloudflare Pages + Functions.
+- Hosting: Cloudflare Workers (OpenNext).
 - DB: Cloudflare D1 (SQLite).
 - Auth: email + password, session cookies.
 - LLM: provider-agnostic server adapter (start with a single provider via env vars).

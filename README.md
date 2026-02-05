@@ -16,17 +16,36 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Cloudflare Pages (OpenNext)
+## Cloudflare Workers (OpenNext)
 
 - Build command: `npm run build:cf`
 - Worker entry: `.open-next/worker.js`
 - Static assets: `.open-next/assets`
 - Wrangler config: `wrangler.toml`
 - Lock down preview/prod with Cloudflare Access or password protection until auth lands.
+
+## D1 Migrations
+
+1. Create the D1 databases (once per account):
+
+```bash
+npx wrangler d1 create progress-under-load-prod
+npx wrangler d1 create progress-under-load-preview
+```
+
+2. Paste the resulting `database_id` values into `wrangler.toml`.
+
+3. Apply migrations:
+
+```bash
+npm run db:migrate:local
+npm run db:migrate:preview
+npm run db:migrate:prod
+```
 
 ## Learn More
 
