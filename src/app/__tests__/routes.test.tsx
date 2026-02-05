@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import AdminPage from "@/app/admin/page";
 import ChatPage from "@/app/chat/page";
+import LoginPage from "@/app/login/page";
 import UploadPage from "@/app/upload/page";
 
 describe("Route stubs", () => {
@@ -17,5 +18,10 @@ describe("Route stubs", () => {
   it("renders the admin page heading", () => {
     render(<AdminPage />);
     expect(screen.getByRole("heading", { name: "Admin" })).toBeInTheDocument();
+  });
+
+  it("renders the login page heading", () => {
+    render(<LoginPage />);
+    expect(screen.getByRole("heading", { name: "Login" })).toBeInTheDocument();
   });
 });

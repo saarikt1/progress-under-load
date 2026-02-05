@@ -11,6 +11,15 @@ vi.mock("next/image", () => ({
   default: (props: React.ComponentProps<"img">) => React.createElement("img", props),
 }));
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+}));
+
 vi.mock("next/font/google", () => ({
   Geist: () => ({ variable: "--mock-geist-sans" }),
   Geist_Mono: () => ({ variable: "--mock-geist-mono" }),
