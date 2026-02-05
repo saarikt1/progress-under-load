@@ -88,8 +88,16 @@ export function normalizeEmail(email: string) {
 }
 
 export async function getAuthEnv(): Promise<AuthEnv> {
-  const { env } = await getCloudflareContext({ async: true });
-  return env as AuthEnv;
+  const context = await getCloudflareContext({ async: true });
+  const env = (context?.env ?? {}) as AuthEnv;
+
+  return {
+    ...env,
+    ADMIN_EMAIL: env.ADMIN_EMAIL ?? process.env.ADMIN_EMAIL,
+    ADMIN_PASSWORD: env.ADMIN_PASSWORD ?? process.env.ADMIN_PASSWORD,
+    PBKDF2_ITERATIONS: env.PBKDF2_ITERATIONS ?? process.env.PBKDF2_ITERATIONS,
+    SESSION_TTL_DAYS: env.SESSION_TTL_DAYS ?? process.env.SESSION_TTL_DAYS,
+  };
 }
 
 export function getCookieValue(request: Request, name: string) {
