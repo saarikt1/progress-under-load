@@ -12,9 +12,7 @@ describe("Dashboard", () => {
   it("renders the empty-state header and default lift cards", () => {
     render(<Home />);
 
-    expect(
-      screen.getByRole("heading", { name: "Dashboard" })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Dashboard" })).toBeInTheDocument();
 
     defaultLifts.forEach((lift) => {
       expect(screen.getByText(lift)).toBeInTheDocument();

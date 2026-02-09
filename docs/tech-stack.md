@@ -23,6 +23,7 @@ This document highlights the proposed technologies for the app and why they’re
 - CLI tooling: Wrangler (for Workers deploys, D1, and bindings).
 
 Why:
+
 - One deployable surface area (site + API routes together).
 - Lightweight DB with simple ops for a personal app.
 
@@ -32,24 +33,29 @@ Why:
 - TypeScript.
 
 Why:
+
 - Familiar ecosystem, good routing/data-fetching patterns, easy component composition.
 
 ## Styling / UI Components (bootstrap now, brand later)
 
 **Recommended starting point**
+
 - Tailwind CSS for styling.
 - `shadcn/ui`-style approach (copy-in components) built on Radix UI primitives.
 
 Why this combo works well for your goals:
+
 - Fast to ship a clean, minimal UI.
 - Accessible primitives (Radix) without committing to a heavy themed component library.
 - Easy to “brand later” by centralizing tokens (CSS variables) and adjusting component styles without fighting a framework theme system.
 - Keeps bundle size and visual complexity under control.
 
 **Phase 0 note**
+
 - Phase 0 uses lightweight handcrafted CSS in `src/app/globals.css` to ship the shell before adopting Tailwind in Phase 0.5.
 
 **Alternatives**
+
 - Material UI (MUI): very complete, but heavier and you often end up “fighting the theme” to make it look truly minimal.
 - Mantine/Chakra: good dev experience; still more “framework” than you likely need.
 
@@ -58,6 +64,7 @@ Why this combo works well for your goals:
 Goal: mobile-friendly charts, tap-to-inspect points, good performance.
 
 Suggested options (pick one):
+
 - Recharts (chosen): easiest to get productive; good enough for line/scatter with tooltips.
 - Visx: more flexible/low-level; more work but great control for the 1RM band + dot styling.
 
@@ -96,4 +103,4 @@ Suggested options (pick one):
 
 ## Open Decisions
 
-1) Password hashing library feasibility in Cloudflare runtime (Argon2id preferred; fallback to scrypt/PBKDF2 with documented parameters if needed).
+1. Password hashing library feasibility in Cloudflare runtime (Argon2id preferred; fallback to scrypt/PBKDF2 with documented parameters if needed).
