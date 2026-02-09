@@ -76,9 +76,9 @@ Suggested options (pick one):
 
 ## Auth & Security Libraries
 
-- Password hashing: prefer Argon2id; if runtime constraints apply, use scrypt or PBKDF2 with documented parameters.
+- Password hashing: PBKDF2-HMAC-SHA256 via WebCrypto with per-user salt and strong iterations (default 250,000).
 - Session tokens: random high-entropy token in cookie; store only hash in D1 (SHA-256).
-- Rate limiting: simple per-IP / per-email limits (KV-based or in-memory with edge caveats; document exact strategy).
+- Rate limiting: simple in-memory per-IP / per-email limits for login; revisit if we need durable guarantees.
 
 ## Data Access & Migrations
 
@@ -104,3 +104,4 @@ Suggested options (pick one):
 ## Open Decisions
 
 1. Password hashing library feasibility in Cloudflare runtime (Argon2id preferred; fallback to scrypt/PBKDF2 with documented parameters if needed).
+2. Durable rate limiting strategy (KV or Durable Objects) if brute-force risk increases.

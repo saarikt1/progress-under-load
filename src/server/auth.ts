@@ -9,13 +9,14 @@ const HASH_PREFIX = "pbkdf2$sha256$";
 
 const textEncoder = new TextEncoder();
 
-type D1PreparedStatement = {
+export type D1PreparedStatement = {
   bind: (...args: unknown[]) => D1PreparedStatement;
   first: <T = Record<string, unknown>>(columnName?: string) => Promise<T | null>;
   run: () => Promise<{ success: boolean }>;
+  all: <T = Record<string, unknown>>() => Promise<{ results: T[] }>;
 };
 
-type D1Database = {
+export type D1Database = {
   prepare: (query: string) => D1PreparedStatement;
 };
 
@@ -315,7 +316,6 @@ async function pbkdf2(password: string, salt: Uint8Array, iterations: number) {
   const bits = await crypto.subtle.deriveBits(
     {
       name: "PBKDF2",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       salt: salt as any,
       iterations,
       hash: "SHA-256",
@@ -328,7 +328,6 @@ async function pbkdf2(password: string, salt: Uint8Array, iterations: number) {
 }
 
 async function subtleDigest(data: Uint8Array) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return crypto.subtle.digest("SHA-256", data as any);
 }
 

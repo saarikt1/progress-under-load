@@ -86,6 +86,8 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 3 — Authentication (email+password + sessions)
 
 **Outcome:** You can log in/out; routes are protected; admin bootstraps from env vars.
+**Status:** Complete (February 9, 2026).
+**Status:** Complete (February 9, 2026).
 
 - Implement login/logout and session cookie (`__Host-` pref).
 - Implement middleware/guards for protected pages and API routes.
@@ -105,10 +107,11 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 4 — Invite Codes (admin-only user creation)
 
 **Outcome:** Admin can invite a new user by email; invite acceptance creates an account.
+**Status:** Complete (February 9, 2026).
 
 - Admin UI: create/list/revoke invites.
 - Accept-invite flow: `/accept-invite?code=...` and password set.
-- Rate limit + generic errors (no enumeration).
+- Generic errors (no enumeration).
 
 **Validation**
 
@@ -121,6 +124,8 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - None beyond using the UI.
 
 ## Phase 5 — CSV Upload + Idempotent Import
+**Status:** Complete (February 9, 2026).
+
 
 **Outcome:** Uploading your CSV populates the database; re-uploading doesn’t duplicate.
 
