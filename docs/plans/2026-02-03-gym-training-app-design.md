@@ -33,6 +33,7 @@ Header:
 `title,start_time,end_time,description,exercise_title,superset_id,exercise_notes,set_index,set_type,weight_kg,reps,distance_km,duration_seconds,rpe`
 
 Notes:
+
 - Timestamps look like `18 Jan 2026, 17:42` and are treated as a single (local) timezone.
 - Analytics should default to `set_type == "normal"` only.
 
@@ -41,10 +42,12 @@ Notes:
 Server route accepts CSV upload (multipart) and parses rows.
 
 Normalization:
+
 - `exercise_key = lower(trim(exercise_title))` with internal whitespace collapsed.
 - Store `display_name` as the exact CSV `exercise_title` value (first seen or latest seen).
 
 Dedupe strategy:
+
 - Fast filter: track `max_end_time_seen` per user; skip rows where `end_time <= max_end_time_seen`.
 - Safety net: compute `source_row_hash` and enforce uniqueness to make imports idempotent even if timestamps collide.
 
@@ -72,24 +75,29 @@ All user-scoped tables include `user_id`.
 ## Analytics
 
 Strength set eligibility:
+
 - `set_type == "normal" AND weight_kg > 0 AND reps > 0`.
 
 Estimated 1RM per set:
+
 - Epley: `w * (1 + reps/30)`.
 - Brzycki: `w * 36/(37 - reps)`.
 - Lombardi: `w * reps^0.10`.
 - RPE-adjusted (when `rpe` present): convert `(reps, rpe)` to an estimated `%1RM` via an RPE chart, then `w / pct`.
 
 Display:
+
 - Per-exercise “Estimated 1RM trend”: central line = median across available formulas; shaded band = min/max.
 - “Logged weights”: scatter of `weight_kg` over time (normal sets), with an option to show “best set per workout” as the default aggregation to reduce noise.
 - “Singles”: separate series for `reps == 1` actual weights.
 
 PR logic (derived queries):
+
 - Heaviest single PR: max `weight_kg` where `reps == 1` and `set_type == "normal"`.
 - Estimated 1RM PR: max of the central trend value (median across formulas) over time.
 
 Default main lifts (from sample CSV):
+
 - `Bench Press (Barbell)`
 - `Deadlift (Barbell)`
 - `Overhead Press (Barbell)`
@@ -98,21 +106,25 @@ Default main lifts (from sample CSV):
 ## UX / Navigation
 
 Home = Dashboard:
+
 - Four default lift cards (GZCLP main lifts), each showing last 7 days + last ~3 months; single toggle to switch to “All time”.
 - “All exercises” view provides a searchable list (no aliasing).
 - Persistent “Chat with coach” CTA on dashboard (header button + mobile-friendly action button).
 
 Upload:
+
 - Smaller persistent “Upload CSV” action in the dashboard header.
 - After upload: show a recap panel (rows inserted, warnings, PR highlights, AI coach comment) and a “Chat” CTA; return to dashboard after dismiss.
 
 ## AI Coach
 
 Runs only on server routes:
+
 - Post-upload: generate a short supportive recap using recent workouts + all-time PRs + notes; output 3–6 concise bullets (praise, focus cue, next-session suggestion, optional caution if notes indicate pain/fatigue).
 - Chat: same context builder + conversation history.
 
 Provider-agnostic adapter:
+
 - One interface: `generateCoachMessage(context, userMessage?) -> text`.
 - Secrets only in env vars; never exposed to the client.
 

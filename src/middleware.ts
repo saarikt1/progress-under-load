@@ -44,7 +44,9 @@ export const config = {
 };
 
 function isPublicPath(pathname: string) {
-  return PUBLIC_PATH_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+  return PUBLIC_PATH_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
 }
 
 function isStaticAsset(pathname: string) {

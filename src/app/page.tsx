@@ -1,21 +1,13 @@
 import { DEFAULT_LIFTS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Home() {
   return (
     <section className="space-y-8">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-2">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Welcome back
-          </p>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Welcome back</p>
           <h1 className="text-3xl font-semibold sm:text-4xl">Dashboard</h1>
           <p className="max-w-xl text-sm text-muted-foreground">
             Upload a CSV export to unlock trends, PRs, and coaching insights.

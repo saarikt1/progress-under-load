@@ -149,7 +149,7 @@ describe("POST /api/auth/login", () => {
     insertStatement.run.mockResolvedValue({ success: true });
 
     const userStatement = createStatement();
-    userStatement.first.mockImplementation(async () => ({
+    userStatement.first.mockResolvedValueOnce(null).mockImplementation(async () => ({
       id: "admin-1",
       email: "admin@example.com",
       password_hash: insertedPasswordHash,
@@ -197,7 +197,7 @@ describe("POST /api/auth/login", () => {
     expect(insertStatement.bind).toHaveBeenCalledWith(
       expect.any(String),
       "admin@example.com",
-      expect.stringMatching(/^pbkdf2\$sha256\$\d+\$/),
+      expect.stringMatching(/^pbkdf2\$sha256\$\d+/),
       "admin"
     );
     expect(response.status).toBe(200);

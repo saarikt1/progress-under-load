@@ -118,7 +118,11 @@ export function getCookieValue(request: Request, name: string) {
   return null;
 }
 
-export function setSessionCookie(response: { cookies: { set: (options: CookieOptions) => void } }, token: string, env?: AuthEnv) {
+export function setSessionCookie(
+  response: { cookies: { set: (options: CookieOptions) => void } },
+  token: string,
+  env?: AuthEnv
+) {
   response.cookies.set({
     name: getSessionCookieName(),
     value: token,
@@ -130,7 +134,9 @@ export function setSessionCookie(response: { cookies: { set: (options: CookieOpt
   });
 }
 
-export function clearSessionCookie(response: { cookies: { set: (options: CookieOptions) => void } }) {
+export function clearSessionCookie(response: {
+  cookies: { set: (options: CookieOptions) => void };
+}) {
   response.cookies.set({
     name: getSessionCookieName(),
     value: "",
@@ -184,7 +190,9 @@ export async function verifyPassword(password: string, storedHash: string) {
 }
 
 export async function ensureAdminBootstrap(db: D1Database, env: AuthEnv) {
-  const countRow = await db.prepare("SELECT COUNT(*) as count FROM users").first<{ count: number }>();
+  const countRow = await db
+    .prepare("SELECT COUNT(*) as count FROM users")
+    .first<{ count: number }>();
   const count = Number(countRow?.count ?? 0);
 
   if (count > 0) {
@@ -216,7 +224,9 @@ export async function findUserByEmail(db: D1Database, email: string) {
 export async function createSession(db: D1Database, userId: string, env?: AuthEnv) {
   const token = createSessionToken();
   const tokenHash = await hashSessionToken(token);
-  const expiresAt = new Date(Date.now() + getSessionTtlDays(env) * 24 * 60 * 60 * 1000).toISOString();
+  const expiresAt = new Date(
+    Date.now() + getSessionTtlDays(env) * 24 * 60 * 60 * 1000
+  ).toISOString();
 
   await db
     .prepare("INSERT INTO sessions (id, user_id, token_hash, expires_at) VALUES (?, ?, ?, ?)")
@@ -297,13 +307,9 @@ function randomBytes(length: number) {
 }
 
 async function pbkdf2(password: string, salt: Uint8Array, iterations: number) {
-  const key = await crypto.subtle.importKey(
-    "raw",
-    textEncoder.encode(password),
-    "PBKDF2",
-    false,
-    ["deriveBits"]
-  );
+  const key = await crypto.subtle.importKey("raw", textEncoder.encode(password), "PBKDF2", false, [
+    "deriveBits",
+  ]);
 
   const bits = await crypto.subtle.deriveBits(
     {
@@ -333,7 +339,8 @@ function base64UrlEncode(bytes: Uint8Array) {
 function base64UrlDecode(input: string) {
   const normalized = input.replace(/-/g, "+").replace(/_/g, "/");
   const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
-  const binary = typeof atob === "function" ? atob(padded) : Buffer.from(padded, "base64").toString("binary");
+  const binary =
+    typeof atob === "function" ? atob(padded) : Buffer.from(padded, "base64").toString("binary");
   const bytes = new Uint8Array(binary.length);
 
   for (let i = 0; i < binary.length; i += 1) {

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -40,8 +34,7 @@ export default function BenchPressPage() {
           </p>
           <h1 className="text-3xl font-semibold sm:text-4xl">Bench Press</h1>
           <p className="max-w-xl text-sm text-muted-foreground">
-            Placeholder trends while imports are offline. Replace this with live
-            data in Phase 6.
+            Placeholder trends while imports are offline. Replace this with live data in Phase 6.
           </p>
         </div>
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
@@ -61,10 +54,7 @@ export default function BenchPressPage() {
           <div className="h-64 w-full" data-testid="exercise-chart">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={benchPressData} margin={{ left: -8, right: 16 }}>
-                <CartesianGrid
-                  stroke="hsl(var(--border))"
-                  strokeDasharray="4 4"
-                />
+                <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="4 4" />
                 <XAxis
                   dataKey="date"
                   tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}

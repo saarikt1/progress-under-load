@@ -34,9 +34,7 @@ const buildCsp = (isDev: boolean) => {
   );
 };
 
-export const getSecurityHeaders = (
-  options: SecurityHeaderOptions = {}
-): SecurityHeaderConfig[] => {
+export const getSecurityHeaders = (options: SecurityHeaderOptions = {}): SecurityHeaderConfig[] => {
   const resolvedIsDev = options.isDev ?? process.env.NODE_ENV === "development";
   const headers: SecurityHeader[] = [
     {

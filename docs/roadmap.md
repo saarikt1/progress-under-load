@@ -16,11 +16,13 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Add basic error boundary / not-found.
 
 **Validation**
+
 - `npm run dev` shows dashboard shell on mobile/desktop.
 - Route stubs render: `/`, `/chat`, `/admin`, `/upload` (or modal).
 - `npm test` passes.
 
 **Manual input**
+
 - None.
 
 ## Phase 0.5 — UI Foundation (design system + charts baseline)
@@ -34,10 +36,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Add a basic Recharts component (static dummy data) matching the intended style.
 
 **Validation**
+
 - Dashboard cards look consistent and “app-like” on mobile.
 - One chart renders on an exercise detail placeholder page.
 
 **Manual input**
+
 - None.
 
 ## Phase 1 — Cloudflare Setup + First Deploy
@@ -50,10 +54,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Add baseline security headers (CSP baseline, etc.).
 
 **Validation**
+
 - Deployed URL loads the placeholder dashboard.
 - Deployed URL: `https://progress-under-load.tommisaarikangas.workers.dev/`.
 
 **Manual input**
+
 - Cloudflare account + Workers project.
 - Ensure Workers.dev subdomain is enabled.
 - Decide the production domain (optional now).
@@ -69,10 +75,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Add a `/api/health` route that verifies DB connectivity.
 
 **Validation**
+
 - DB migrations apply cleanly in local dev and preview/prod.
 - `/api/health` returns OK and indicates DB is reachable.
 
 **Manual input**
+
 - Create D1 DB(s) in Cloudflare and wire bindings to the Workers project (preview + production).
 
 ## Phase 3 — Authentication (email+password + sessions)
@@ -85,11 +93,13 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Add `/admin` landing page visible only to admins.
 
 **Validation**
+
 - Unauthed users get redirected to `/login`.
 - Login works; cookie is HttpOnly+Secure in prod.
 - Admin can access `/admin`; normal users cannot.
 
 **Manual input**
+
 - Set `ADMIN_EMAIL` + `ADMIN_PASSWORD` as Cloudflare env vars.
 
 ## Phase 4 — Invite Codes (admin-only user creation)
@@ -101,11 +111,13 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Rate limit + generic errors (no enumeration).
 
 **Validation**
+
 - Invite link works once; second attempt fails.
 - Invites expire as expected.
 - New user can log in and sees empty dashboard.
 
 **Manual input**
+
 - None beyond using the UI.
 
 ## Phase 5 — CSV Upload + Idempotent Import
@@ -119,11 +131,13 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Track `imports` summary and `max_end_time_seen`.
 
 **Validation**
+
 - Upload `example_data/workout_data_2026_jan.csv` inserts rows.
 - Re-upload inserts 0 new rows.
 - Upload as a different user stores separate data (no mixing).
 
 **Manual input**
+
 - None.
 
 ## Phase 6 — Core Analytics (per exercise)
@@ -138,10 +152,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Default dashboard graphs for the 4 main lifts using strict CSV names.
 
 **Validation**
+
 - Bench/Deadlift/OHP/Squat cards render with 7d + ~3mo views.
 - Exercise detail matches expected points from CSV.
 
 **Manual input**
+
 - Confirm the “main lift” names if your logger changes naming.
 
 ## Phase 7 — PR Detection + Highlights
@@ -154,10 +170,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Dashboard “New PRs” callouts (last 7 days) and all-time PR tiles on exercise pages.
 
 **Validation**
+
 - PRs appear on known dates from your sample data (spot-check).
 - Non-normal sets never affect PRs.
 
 **Manual input**
+
 - None.
 
 ## Phase 8 — AI Coach (post-upload comment)
@@ -169,10 +187,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Store the generated recap tied to the import (so it’s repeatable/viewable later).
 
 **Validation**
+
 - Upload triggers a coach comment within a reasonable latency budget.
 - No API keys appear in client JS or network responses.
 
 **Manual input**
+
 - Provide LLM provider endpoint/key as Cloudflare env vars.
 
 ## Phase 9 — Coach Chat (contextual awareness)
@@ -184,10 +204,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Context builder uses: recent workouts, PRs, and relevant notes; includes conversation history.
 
 **Validation**
+
 - Chat works for both users; context never crosses accounts.
 - Chat still works after refreshing or switching devices (if sessions persist).
 
 **Manual input**
+
 - Decide retention window (e.g., last 90 days) if you care.
 
 ## Phase 10 — PWA + Polish
@@ -200,10 +222,12 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Backup/export: “download my data” (DB→CSV or JSON).
 
 **Validation**
+
 - Can install to home screen; offline shows a friendly state (even if data isn’t fully offline).
 - Export works and can be re-imported.
 
 **Manual input**
+
 - Provide icons (or approve generated placeholders).
 
 ## Phase 11 — Security Review & Operational Hardening
@@ -219,7 +243,9 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Add basic monitoring hooks (error reporting) if desired.
 
 **Validation**
+
 - Manual “attack checklist” passes (token leakage, enumeration, CSRF, XSS).
 
 **Manual input**
+
 - Optional: choose an error reporting tool (or none).

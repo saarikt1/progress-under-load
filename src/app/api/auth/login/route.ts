@@ -48,9 +48,16 @@ export async function POST(request: Request) {
     const env = await getAuthEnv();
     const db = env.DB;
 
-    await ensureAdminBootstrap(db, env);
+    let user = await findUserByEmail(db, email);
 
-    const user = await findUserByEmail(db, email);
+    // If the user is not found, it might be because the database is empty
+    // and we need to bootstrap the admin user. This check only runs if
+    // the email matches the configured admin email.
+    if (!user && email === normalizeEmail(env.ADMIN_EMAIL ?? "")) {
+      await ensureAdminBootstrap(db, env);
+      user = await findUserByEmail(db, email);
+    }
+
     if (!user) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
