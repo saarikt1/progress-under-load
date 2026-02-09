@@ -47,11 +47,12 @@ Implement email + password authentication with secure session cookies, route pro
 ## Route Protection
 - Middleware redirects unauthenticated users to `/login`.
 - Allowlist: `/login`, `/accept-invite`, `/api/auth/*`, static assets.
-- API handlers use a shared `requireAuth()` helper to return `401` when missing.
+- API handlers and server actions verify the session via `getSessionByToken` as needed.
 
 ## Admin Bootstrap
 - When `users` is empty, create initial admin from `ADMIN_EMAIL` + `ADMIN_PASSWORD`.
 - Role: `admin`.
+- Local dev reads `process.env` values if Cloudflare bindings are unavailable.
 
 ## Error Handling
 - Generic auth errors: `Invalid credentials`.
@@ -81,4 +82,4 @@ Implement email + password authentication with secure session cookies, route pro
 - `PBKDF2_ITERATIONS`
 
 ## Status
-Planned as of February 5, 2026.
+Complete as of February 9, 2026.
