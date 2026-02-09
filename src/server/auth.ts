@@ -307,14 +307,16 @@ function randomBytes(length: number) {
 }
 
 async function pbkdf2(password: string, salt: Uint8Array, iterations: number) {
-  const key = await crypto.subtle.importKey("raw", textEncoder.encode(password), "PBKDF2", false, [
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const key = await crypto.subtle.importKey("raw", textEncoder.encode(password) as any, "PBKDF2", false, [
     "deriveBits",
   ]);
 
   const bits = await crypto.subtle.deriveBits(
     {
       name: "PBKDF2",
-      salt,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      salt: salt as any,
       iterations,
       hash: "SHA-256",
     },
@@ -326,7 +328,8 @@ async function pbkdf2(password: string, salt: Uint8Array, iterations: number) {
 }
 
 async function subtleDigest(data: Uint8Array) {
-  return crypto.subtle.digest("SHA-256", data);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return crypto.subtle.digest("SHA-256", data as any);
 }
 
 function base64UrlEncode(bytes: Uint8Array) {
