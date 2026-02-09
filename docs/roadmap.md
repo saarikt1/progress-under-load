@@ -112,6 +112,8 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - None beyond using the UI.
 
 ## Phase 5 — CSV Upload + Idempotent Import
+**Status:** Complete (February 9, 2026).
+
 
 **Outcome:** Uploading your CSV populates the database; re-uploading doesn’t duplicate.
 
