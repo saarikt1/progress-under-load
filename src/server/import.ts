@@ -1,5 +1,6 @@
 import type { ParsedRow } from "./csv-parser";
 import { normalizeExerciseKey } from "./csv-parser";
+import type { D1Database } from "./auth";
 
 /**
  * Result of a CSV import operation
