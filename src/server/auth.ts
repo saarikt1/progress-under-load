@@ -314,7 +314,7 @@ async function pbkdf2(password: string, salt: Uint8Array, iterations: number) {
   const bits = await crypto.subtle.deriveBits(
     {
       name: "PBKDF2",
-      salt,
+      salt: salt as unknown as BufferSource,
       iterations,
       hash: "SHA-256",
     },
@@ -326,7 +326,7 @@ async function pbkdf2(password: string, salt: Uint8Array, iterations: number) {
 }
 
 async function subtleDigest(data: Uint8Array) {
-  return crypto.subtle.digest("SHA-256", data);
+  return crypto.subtle.digest("SHA-256", data as unknown as BufferSource);
 }
 
 function base64UrlEncode(bytes: Uint8Array) {
