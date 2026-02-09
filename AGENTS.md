@@ -4,10 +4,10 @@
 
 For any behavior change (features, bug fixes, security changes, parsing, data logic, UI behavior):
 
-1) **Write or update tests first** to describe the desired behavior.
-2) **Run the tests and confirm they fail** for the right reason (the “red” step).
-3) **Implement the change**.
-4) **Re-run tests and confirm they pass** (the “green” step).
+1. **Write or update tests first** to describe the desired behavior.
+2. **Run the tests and confirm they fail** for the right reason (the “red” step).
+3. **Implement the change**.
+4. **Re-run tests and confirm they pass** (the “green” step).
 
 ### Exceptions
 

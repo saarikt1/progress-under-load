@@ -33,7 +33,11 @@
 
   body {
     @apply min-h-screen bg-background text-foreground;
-    font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+    font-family:
+      var(--font-geist-sans),
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
   a {

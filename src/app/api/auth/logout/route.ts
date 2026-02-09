@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 
-import { clearSessionCookie, deleteSessionByToken, getAuthEnv, getCookieValue, getSessionCookieName } from "@/server/auth";
+import {
+  clearSessionCookie,
+  deleteSessionByToken,
+  getAuthEnv,
+  getCookieValue,
+  getSessionCookieName,
+} from "@/server/auth";
 
 export async function POST(request: Request) {
   try {
