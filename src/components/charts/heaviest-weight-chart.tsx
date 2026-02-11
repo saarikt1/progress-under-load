@@ -11,6 +11,7 @@ import {
     ResponsiveContainer,
 } from "recharts";
 import type { MaxWeightPoint } from "@/lib/one-rm";
+import { generateYAxisTicks } from "@/lib/one-rm";
 
 interface HeaviestWeightChartProps {
     data: MaxWeightPoint[];
@@ -37,11 +38,9 @@ export function HeaviestWeightChart({ data }: HeaviestWeightChartProps) {
     const weights = data.map((d) => d.weight);
     const minWeight = Math.min(...weights);
     const maxWeight = Math.max(...weights);
-    const padding = (maxWeight - minWeight) * 0.1;
-    const yDomain = [
-        Math.floor(minWeight - padding),
-        Math.ceil(maxWeight + padding),
-    ];
+
+    const ticks = generateYAxisTicks(minWeight, maxWeight);
+    const yDomain = [ticks[0], ticks[ticks.length - 1]];
 
     return (
         <ResponsiveContainer width="100%" height={400}>
@@ -54,7 +53,12 @@ export function HeaviestWeightChart({ data }: HeaviestWeightChartProps) {
                     interval="preserveStartEnd"
                     minTickGap={30}
                 />
-                <YAxis domain={yDomain} className="text-xs" label={{ value: "Weight (kg)", angle: -90, position: "insideLeft" }} />
+                <YAxis
+                    domain={yDomain}
+                    ticks={ticks}
+                    className="text-xs"
+                    label={{ value: "Weight (kg)", angle: -90, position: "insideLeft" }}
+                />
                 <Tooltip
                     cursor={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: 1, strokeDasharray: '3 3' }}
                     content={({ active, payload }) => {

@@ -17,6 +17,7 @@ import {
     ComposedChart,
 } from "recharts";
 import type { ChartDataPoint } from "@/lib/one-rm";
+import { generateYAxisTicks } from "@/lib/one-rm";
 
 interface OneRMChartProps {
     data: ChartDataPoint[];
@@ -44,21 +45,17 @@ export function OneRMChart({ data, showHeavySets = true }: OneRMChartProps) {
         workoutTitle: point.workoutTitle,
     }));
 
-    // Calculate Y-axis domain with padding
+    // Calculate Y-axis ticks and domain
     const allValues = data.flatMap((d) => [d.oneRM.avg]);
     if (data.some(d => d.isHeavySet)) {
         allValues.push(...data.filter(d => d.isHeavySet).map(d => d.weight));
     }
 
-    // Add 2.5kg padding (typical small plate increment) or 5%
     const minValue = Math.min(...allValues);
     const maxValue = Math.max(...allValues);
-    const padding = Math.max(2.5, (maxValue - minValue) * 0.1);
 
-    const yDomain = [
-        Math.floor(minValue - padding),
-        Math.ceil(maxValue + padding),
-    ];
+    const ticks = generateYAxisTicks(minValue, maxValue);
+    const yDomain = [ticks[0], ticks[ticks.length - 1]];
 
     return (
         <ResponsiveContainer width="100%" height={400}>
@@ -73,6 +70,7 @@ export function OneRMChart({ data, showHeavySets = true }: OneRMChartProps) {
                 />
                 <YAxis
                     domain={yDomain}
+                    ticks={ticks}
                     className="text-xs"
                     label={{ value: "Weight (kg)", angle: -90, position: "insideLeft" }}
                 />

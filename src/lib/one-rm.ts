@@ -257,3 +257,29 @@ export function aggregateMaxWeightByWeek(data: MaxWeightPoint[]): MaxWeightPoint
 
     return aggregated;
 }
+
+/**
+ * Generate Y-axis ticks with 5kg or 10kg increments
+ */
+export function generateYAxisTicks(min: number, max: number): number[] {
+    // Add some padding to the data range so points aren't exactly on the edge
+    const range = max - min;
+    const padding = range * 0.1; // 10% padding
+
+    // Determine increment based on range
+    // If range is small, use 5kg. If large, use 10kg.
+    let increment = 5;
+    if (range > 40) {
+        increment = 10;
+    }
+
+    const start = Math.floor((min - padding) / increment) * increment;
+    const end = Math.ceil((max + padding) / increment) * increment;
+
+    const ticks: number[] = [];
+    for (let i = start; i <= end; i += increment) {
+        ticks.push(i);
+    }
+
+    return ticks;
+}
