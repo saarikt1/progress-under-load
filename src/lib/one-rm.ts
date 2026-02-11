@@ -173,4 +173,87 @@ export function processSetDataForChart(sets: WorkoutSet[]): ChartDataPoint[] {
     // Sort by date
     return dataPoints.sort((a, b) => a.date.getTime() - b.date.getTime());
 }
+/**
+ * Helper to get a week key for grouping (YYYY-Www)
+ */
+function getWeekKey(date: Date): string {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const year = d.getUTCFullYear();
+    const weekNo = Math.ceil((((d.getTime() - new Date(Date.UTC(year, 0, 1)).getTime()) / 86400000) + 1) / 7);
+    return `${year}-W${weekNo.toString().padStart(2, '0')}`;
+}
 
+/**
+ * Aggregate chart data to show only the best set (highest 1RM) per week
+ */
+export function aggregateChartDataByWeek(data: ChartDataPoint[]): ChartDataPoint[] {
+    const grouped = new Map<string, ChartDataPoint[]>();
+
+    for (const point of data) {
+        const key = getWeekKey(point.date);
+        if (!grouped.has(key)) {
+            grouped.set(key, []);
+        }
+        grouped.get(key)!.push(point);
+    }
+
+    const aggregated: ChartDataPoint[] = [];
+
+    // Sort keys to ensure chronological order
+    const sortedKeys = Array.from(grouped.keys()).sort();
+
+    for (const key of sortedKeys) {
+        const points = grouped.get(key)!;
+
+        // Find point with highest 1RM avg
+        // If tie, pick highest weight, then latest date
+        const bestPoint = points.reduce((prev, current) => {
+            if (current.oneRM.avg > prev.oneRM.avg) return current;
+            if (current.oneRM.avg < prev.oneRM.avg) return prev;
+
+            if (current.weight > prev.weight) return current;
+            if (current.weight < prev.weight) return prev;
+
+            return current.date > prev.date ? current : prev;
+        });
+
+        aggregated.push(bestPoint);
+    }
+
+    return aggregated;
+}
+
+/**
+ * Aggregate max weight data to show only the heaviest set per week
+ */
+export function aggregateMaxWeightByWeek(data: MaxWeightPoint[]): MaxWeightPoint[] {
+    const grouped = new Map<string, MaxWeightPoint[]>();
+
+    for (const point of data) {
+        const key = getWeekKey(point.date);
+        if (!grouped.has(key)) {
+            grouped.set(key, []);
+        }
+        grouped.get(key)!.push(point);
+    }
+
+    const aggregated: MaxWeightPoint[] = [];
+    const sortedKeys = Array.from(grouped.keys()).sort();
+
+    for (const key of sortedKeys) {
+        const points = grouped.get(key)!;
+
+        // Find point with heaviest weight
+        const bestPoint = points.reduce((prev, current) => {
+            if (current.weight > prev.weight) return current;
+            if (current.weight < prev.weight) return prev;
+            return current.date > prev.date ? current : prev;
+        });
+
+        aggregated.push(bestPoint);
+    }
+
+    return aggregated;
+}

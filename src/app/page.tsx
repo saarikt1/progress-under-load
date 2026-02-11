@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { OneRMChart } from "@/components/charts/one-rm-chart";
-import { processSetDataForChart, type WorkoutSet } from "@/lib/one-rm";
+import { processSetDataForChart, aggregateChartDataByWeek, type WorkoutSet } from "@/lib/one-rm";
 
 interface ExerciseData {
   exerciseId: string | null;
@@ -114,8 +114,8 @@ export default function Dashboard() {
           <button
             key={p}
             className={`px-4 py-2 text-sm font-medium transition-colors ${period === p
-                ? "border-b-2 border-primary text-foreground"
-                : "text-muted-foreground hover:text-foreground"
+              ? "border-b-2 border-primary text-foreground"
+              : "text-muted-foreground hover:text-foreground"
               }`}
             onClick={() => setPeriod(p)}
           >
@@ -127,7 +127,8 @@ export default function Dashboard() {
       {/* Main lifts grid */}
       <div className="grid gap-6 lg:grid-cols-2">
         {Object.entries(exerciseData).map(([displayName, data]) => {
-          const chartData = data.sets.length > 0 ? processSetDataForChart(data.sets) : [];
+          const rawChartData = data.sets.length > 0 ? processSetDataForChart(data.sets) : [];
+          const chartData = aggregateChartDataByWeek(rawChartData);
           const hasData = chartData.length > 0;
 
           // Get latest 1RM if available
@@ -142,8 +143,8 @@ export default function Dashboard() {
                 <CardHeader className="flex-row items-center justify-between space-y-0">
                   <CardTitle className="text-lg">{displayName}</CardTitle>
                   <span className={`rounded-full px-3 py-1 text-xs ${hasData
-                      ? "bg-primary/10 text-primary"
-                      : "bg-secondary text-muted-foreground"
+                    ? "bg-primary/10 text-primary"
+                    : "bg-secondary text-muted-foreground"
                     }`}>
                     {hasData ? `${latest1RM?.toFixed(1)} kg` : "Empty"}
                   </span>

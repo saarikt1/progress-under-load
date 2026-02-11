@@ -3,7 +3,12 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useExerciseDetail } from "@/hooks/use-exercise-detail";
-import { processSetDataForChart, findMaxWeightPerWorkout } from "@/lib/one-rm";
+import {
+    processSetDataForChart,
+    findMaxWeightPerWorkout,
+    aggregateChartDataByWeek,
+    aggregateMaxWeightByWeek
+} from "@/lib/one-rm";
 import { OneRMChart } from "@/components/charts/one-rm-chart";
 import { HeaviestWeightChart } from "@/components/charts/heaviest-weight-chart";
 import { Button } from "@/components/ui/button";
@@ -37,9 +42,12 @@ export default function ExerciseDetailPage() {
         );
     }
 
-    // Process data for charts
-    const chartData = processSetDataForChart(sets);
-    const maxWeightData = findMaxWeightPerWorkout(sets);
+    // Process data for charts (aggregated by week)
+    const rawChartData = processSetDataForChart(sets);
+    const chartData = aggregateChartDataByWeek(rawChartData);
+
+    const rawMaxWeightData = findMaxWeightPerWorkout(sets);
+    const maxWeightData = aggregateMaxWeightByWeek(rawMaxWeightData);
 
     return (
         <section className="space-y-8">
@@ -72,8 +80,8 @@ export default function ExerciseDetailPage() {
                 <div className="flex border-b">
                     <button
                         className={`px-4 py-2 text-sm font-medium transition-colors ${activeView === "1rm"
-                                ? "border-b-2 border-primary text-foreground"
-                                : "text-muted-foreground hover:text-foreground"
+                            ? "border-b-2 border-primary text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
                             }`}
                         onClick={() => setActiveView("1rm")}
                     >
@@ -81,8 +89,8 @@ export default function ExerciseDetailPage() {
                     </button>
                     <button
                         className={`px-4 py-2 text-sm font-medium transition-colors ${activeView === "heaviest"
-                                ? "border-b-2 border-primary text-foreground"
-                                : "text-muted-foreground hover:text-foreground"
+                            ? "border-b-2 border-primary text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
                             }`}
                         onClick={() => setActiveView("heaviest")}
                     >
