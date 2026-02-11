@@ -133,14 +133,18 @@ This roadmap breaks the project into phases that each deliver something usable/v
 
 ## Phase 6 — Core Analytics (per exercise)
 
+**Status:** Complete (February 11, 2026).
+
 **Outcome:** Exercise pages show real data and basic charts.
 
-- Exercise list + search.
-- Exercise detail page graphs:
-  - Logged weights (scatter, normal sets only).
-  - Singles series (reps==1).
-  - Estimated 1RM trend with range band (Epley/Brzycki/Lombardi).
-- Default dashboard graphs for the 4 main lifts using strict CSV names.
+- Enhanced Dashboard with full 1RM charts for 4 main lifts (Squat, Bench Press, Deadlift, Overhead Press).
+- Exercise list page with search functionality and card grid layout.
+- Exercise detail pages with tabbed charts:
+  - **One Rep Max:** Estimated 1RM trend (average of Epley/Brzycki/Lombardi, rounded to 0.5kg).
+  - **Heaviest Weight:** Maximum weight per workout session.
+- **Weekly aggregation:** Best set per week to reduce noise.
+- **Chart features:** Categorical X-axis, custom Y-axis ticks (5kg/10kg increments), straight lines, heavy set markers.
+- Global time period filter (3M, 12M, All Time) on dashboard.
 
 **Validation**
 - Bench/Deadlift/OHP/Squat cards render with 7d + ~3mo views.
