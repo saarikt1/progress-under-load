@@ -45,10 +45,16 @@ export function OneRMChart({ data, showHeavySets = true }: OneRMChartProps) {
     }));
 
     // Calculate Y-axis domain with padding
-    const allValues = data.flatMap((d) => [d.oneRM.min, d.oneRM.max]);
+    const allValues = data.flatMap((d) => [d.oneRM.avg]);
+    if (data.some(d => d.isHeavySet)) {
+        allValues.push(...data.filter(d => d.isHeavySet).map(d => d.weight));
+    }
+
+    // Add 2.5kg padding (typical small plate increment) or 5%
     const minValue = Math.min(...allValues);
     const maxValue = Math.max(...allValues);
-    const padding = (maxValue - minValue) * 0.1;
+    const padding = Math.max(2.5, (maxValue - minValue) * 0.1);
+
     const yDomain = [
         Math.floor(minValue - padding),
         Math.ceil(maxValue + padding),
@@ -56,17 +62,22 @@ export function OneRMChart({ data, showHeavySets = true }: OneRMChartProps) {
 
     return (
         <ResponsiveContainer width="100%" height={400}>
-            <ComposedChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+            <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" vertical={false} />
                 <XAxis
-                    dataKey="date"
-                    type="number"
-                    domain={["dataMin", "dataMax"]}
-                    tickFormatter={(timestamp) => format(new Date(timestamp), "MMM d")}
-                    className="text-xs"
+                    dataKey="dateStr"
+                    type="category"
+                    tick={{ fontSize: 10 }}
+                    interval="preserveStartEnd"
+                    minTickGap={30}
                 />
-                <YAxis domain={yDomain} className="text-xs" label={{ value: "Weight (kg)", angle: -90, position: "insideLeft" }} />
+                <YAxis
+                    domain={yDomain}
+                    className="text-xs"
+                    label={{ value: "Weight (kg)", angle: -90, position: "insideLeft" }}
+                />
                 <Tooltip
+                    cursor={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: 1, strokeDasharray: '3 3' }}
                     content={({ active, payload }) => {
                         if (!active || !payload || payload.length === 0) return null;
                         const data = payload[0].payload;
@@ -78,9 +89,6 @@ export function OneRMChart({ data, showHeavySets = true }: OneRMChartProps) {
                                     <p className="text-xs">
                                         <span className="font-medium">Est. 1RM:</span> {data.avg.toFixed(1)} kg
                                     </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        Range: {data.min.toFixed(1)} - {data.max.toFixed(1)} kg
-                                    </p>
                                     {data.weight && (
                                         <p className="text-xs font-medium text-primary">
                                             Heavy set: {data.weight} kg × {data.reps}
@@ -91,33 +99,18 @@ export function OneRMChart({ data, showHeavySets = true }: OneRMChartProps) {
                         );
                     }}
                 />
-                <Legend />
-
-                {/* Range band (min-max) */}
-                <Area
-                    type="monotone"
-                    dataKey="max"
-                    stroke="none"
-                    fill="hsl(var(--primary))"
-                    fillOpacity={0.1}
-                    name="1RM Range"
-                />
-                <Area
-                    type="monotone"
-                    dataKey="min"
-                    stroke="none"
-                    fill="hsl(var(--background))"
-                    fillOpacity={1}
-                />
+                <Legend wrapperStyle={{ paddingTop: "20px" }} />
 
                 {/* Estimated 1RM trend line */}
                 <Line
-                    type="monotone"
+                    type="linear"
                     dataKey="avg"
                     stroke="hsl(var(--primary))"
                     strokeWidth={2}
-                    dot={false}
+                    dot={{ fill: "hsl(var(--primary))", r: 4 }}
+                    activeDot={{ r: 6 }}
                     name="Est. 1RM"
+                    isAnimationActive={false}
                 />
 
                 {/* Heavy sets (reps <= 3) */}

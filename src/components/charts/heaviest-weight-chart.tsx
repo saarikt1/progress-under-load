@@ -45,17 +45,18 @@ export function HeaviestWeightChart({ data }: HeaviestWeightChartProps) {
 
     return (
         <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+            <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" vertical={false} />
                 <XAxis
-                    dataKey="date"
-                    type="number"
-                    domain={["dataMin", "dataMax"]}
-                    tickFormatter={(timestamp) => format(new Date(timestamp), "MMM d")}
-                    className="text-xs"
+                    dataKey="dateStr"
+                    type="category"
+                    tick={{ fontSize: 10 }}
+                    interval="preserveStartEnd"
+                    minTickGap={30}
                 />
                 <YAxis domain={yDomain} className="text-xs" label={{ value: "Weight (kg)", angle: -90, position: "insideLeft" }} />
                 <Tooltip
+                    cursor={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: 1, strokeDasharray: '3 3' }}
                     content={({ active, payload }) => {
                         if (!active || !payload || payload.length === 0) return null;
                         const data = payload[0].payload;
@@ -71,12 +72,13 @@ export function HeaviestWeightChart({ data }: HeaviestWeightChartProps) {
                     }}
                 />
                 <Line
-                    type="monotone"
+                    type="linear"
                     dataKey="weight"
                     stroke="hsl(var(--primary))"
                     strokeWidth={2}
                     dot={{ fill: "hsl(var(--primary))", r: 4 }}
                     activeDot={{ r: 6 }}
+                    isAnimationActive={false}
                 />
             </LineChart>
         </ResponsiveContainer>

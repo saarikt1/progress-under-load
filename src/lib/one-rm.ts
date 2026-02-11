@@ -49,14 +49,15 @@ export function calculate1RMRange(
     const lombardi = calculateLombardi(weight, reps);
 
     const values = [epley, brzycki, lombardi];
-    const min = Math.min(...values);
-    const max = Math.max(...values);
     const avg = values.reduce((sum, val) => sum + val, 0) / values.length;
 
+    // Round down to nearest 0.5
+    const roundedAvg = Math.floor(avg * 2) / 2;
+
     return {
-        min: Math.round(min * 10) / 10, // Round to 1 decimal place
-        max: Math.round(max * 10) / 10,
-        avg: Math.round(avg * 10) / 10,
+        min: roundedAvg, // Keeping interface consistent for now, but values are same
+        max: roundedAvg,
+        avg: roundedAvg,
     };
 }
 
