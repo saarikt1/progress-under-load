@@ -45,6 +45,7 @@ pnpm-debug.log*
 # editors
 .idea
 .vscode
+.claude
 
 # misc build tools
 .turbo
