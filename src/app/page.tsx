@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { OneRMChart } from "@/components/charts/one-rm-chart";
+import { PRBadge } from "@/components/ui/pr-badge";
 import { processSetDataForChart, aggregateChartDataByWeek, type WorkoutSet } from "@/lib/one-rm";
 
 interface ExerciseData {
@@ -20,6 +21,7 @@ interface ExerciseData {
   displayName: string;
   sets: WorkoutSet[];
   isLoading: boolean;
+  hasRecentPR: boolean;
 }
 
 export default function Dashboard() {
@@ -48,6 +50,7 @@ export default function Dashboard() {
             displayName,
             sets: [],
             isLoading: true,
+            hasRecentPR: exercise.has_recent_pr ?? false,
           };
         } else {
           newExerciseData[displayName] = {
@@ -55,6 +58,7 @@ export default function Dashboard() {
             displayName,
             sets: [],
             isLoading: false,
+            hasRecentPR: false,
           };
         }
       }
@@ -141,7 +145,10 @@ export default function Dashboard() {
             <Card key={displayName} className={data.exerciseId ? "cursor-pointer transition-colors hover:bg-accent" : ""}>
               <Link href={data.exerciseId ? `/exercises/${data.exerciseId}` : "#"} className={!data.exerciseId ? "pointer-events-none" : ""}>
                 <CardHeader className="flex-row items-center justify-between space-y-0">
-                  <CardTitle className="text-lg">{displayName}</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <CardTitle className="text-lg">{displayName}</CardTitle>
+                    {data.hasRecentPR && <PRBadge />}
+                  </div>
                   <span className={`rounded-full px-3 py-1 text-xs ${hasData
                     ? "bg-primary/10 text-primary"
                     : "bg-secondary text-muted-foreground"

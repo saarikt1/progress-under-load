@@ -6,6 +6,7 @@ import {
     getSessionCookieName,
 } from "@/server/auth";
 import type { WorkoutSet } from "@/lib/one-rm";
+import { findHeaviestWeightPR, findBest1RMPR } from "@/lib/one-rm";
 
 export const runtime = "edge";
 
@@ -93,6 +94,31 @@ export async function GET(
             .bind(exerciseId)
             .all<WorkoutSet>();
 
+        // Query all-time normal sets for PR computation (period-independent)
+        const allTimeSetsResult = await db
+            .prepare(
+                `SELECT weight_kg, reps, end_time, workout_title, set_type, id, start_time, rpe
+                 FROM sets
+                 WHERE exercise_id = ? AND set_type = 'normal'
+                   AND weight_kg IS NOT NULL AND reps IS NOT NULL
+                 ORDER BY end_time ASC`
+            )
+            .bind(exerciseId)
+            .all<WorkoutSet>();
+
+        const heaviestPR = findHeaviestWeightPR(allTimeSetsResult.results);
+        const best1RMPR = findBest1RMPR(allTimeSetsResult.results);
+
+        // Serialize dates to ISO strings for JSON transport
+        const prs = {
+            heaviest: heaviestPR
+                ? { ...heaviestPR, date: heaviestPR.date.toISOString() }
+                : null,
+            estimated_1rm: best1RMPR
+                ? { ...best1RMPR, date: best1RMPR.date.toISOString() }
+                : null,
+        };
+
         return NextResponse.json({
             exercise: {
                 id: exercise.id,
@@ -100,6 +126,7 @@ export async function GET(
                 exercise_key: exercise.exercise_key,
             },
             sets: setsResult.results,
+            prs,
         });
     } catch (error) {
         console.error("Failed to fetch exercise detail:", error);

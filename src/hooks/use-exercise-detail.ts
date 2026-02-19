@@ -9,9 +9,23 @@ interface Exercise {
     exercise_key: string;
 }
 
+interface PRRecordJSON {
+    weight: number;
+    reps: number;
+    date: string;
+    workoutTitle: string;
+    oneRM?: number;
+}
+
+interface PRs {
+    heaviest: PRRecordJSON | null;
+    estimated_1rm: PRRecordJSON | null;
+}
+
 interface UseExerciseDetailResult {
     exercise: Exercise | null;
     sets: WorkoutSet[];
+    prs: PRs | null;
     isLoading: boolean;
     error: string | null;
 }
@@ -22,6 +36,7 @@ export function useExerciseDetail(
 ): UseExerciseDetailResult {
     const [exercise, setExercise] = useState<Exercise | null>(null);
     const [sets, setSets] = useState<WorkoutSet[]>([]);
+    const [prs, setPrs] = useState<PRs | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -42,6 +57,7 @@ export function useExerciseDetail(
                 const data = await response.json();
                 setExercise(data.exercise);
                 setSets(data.sets);
+                setPrs(data.prs ?? null);
             } catch (err) {
                 setError(err instanceof Error ? err.message : "Unknown error");
             } finally {
@@ -57,6 +73,7 @@ export function useExerciseDetail(
     return {
         exercise,
         sets,
+        prs,
         isLoading,
         error,
     };

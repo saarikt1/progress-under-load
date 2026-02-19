@@ -12,6 +12,7 @@ import {
 import { OneRMChart } from "@/components/charts/one-rm-chart";
 import { HeaviestWeightChart } from "@/components/charts/heaviest-weight-chart";
 import { Button } from "@/components/ui/button";
+import { PrStats } from "@/components/pr-stats";
 import { ArrowLeft } from "lucide-react";
 
 type ChartView = "1rm" | "heaviest";
@@ -22,7 +23,7 @@ export default function ExerciseDetailPage() {
     const exerciseId = params.id as string;
 
     const [activeView, setActiveView] = useState<ChartView>("1rm");
-    const { exercise, sets, isLoading, error } = useExerciseDetail(exerciseId);
+    const { exercise, sets, prs, isLoading, error } = useExerciseDetail(exerciseId);
 
     if (isLoading) {
         return (
@@ -74,6 +75,11 @@ export default function ExerciseDetailPage() {
                     </p>
                 </div>
             </header>
+
+            {/* PR stat tiles */}
+            {prs && (prs.heaviest || prs.estimated_1rm) && (
+                <PrStats heaviest={prs.heaviest} estimated1rm={prs.estimated_1rm} />
+            )}
 
             {/* Chart tabs */}
             <div className="space-y-4">

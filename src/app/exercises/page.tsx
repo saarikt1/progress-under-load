@@ -89,6 +89,7 @@ export default function ExercisesPage() {
                             totalSets={exercise.total_sets}
                             lastSession={exercise.last_session}
                             latest1RM={exercise.latest_1rm}
+                            hasRecentPR={exercise.has_recent_pr}
                         />
                     ))
                 )}

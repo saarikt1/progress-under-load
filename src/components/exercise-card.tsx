@@ -9,6 +9,7 @@ import {
     CardContent,
     CardFooter,
 } from "@/components/ui/card";
+import { PRBadge } from "@/components/ui/pr-badge";
 
 interface ExerciseCardProps {
     id: string;
@@ -16,6 +17,7 @@ interface ExerciseCardProps {
     totalSets: number;
     lastSession: string | null;
     latest1RM: number | null;
+    hasRecentPR?: boolean;
 }
 
 export function ExerciseCard({
@@ -24,12 +26,16 @@ export function ExerciseCard({
     totalSets,
     lastSession,
     latest1RM,
+    hasRecentPR,
 }: ExerciseCardProps) {
     return (
         <Link href={`/exercises/${id}`}>
             <Card className="transition-colors hover:bg-accent">
                 <CardHeader className="flex-row items-center justify-between space-y-0">
-                    <CardTitle className="text-base">{displayName}</CardTitle>
+                    <div className="flex items-center gap-2">
+                        <CardTitle className="text-base">{displayName}</CardTitle>
+                        {hasRecentPR && <PRBadge />}
+                    </div>
                     <span className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">
                         {totalSets} sets
                     </span>

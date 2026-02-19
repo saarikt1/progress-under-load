@@ -259,6 +259,68 @@ export function aggregateMaxWeightByWeek(data: MaxWeightPoint[]): MaxWeightPoint
 }
 
 /**
+ * Personal Record data structure
+ */
+export interface PRRecord {
+    weight: number;
+    reps: number;
+    date: Date;
+    workoutTitle: string;
+    oneRM?: number; // only populated for 1RM PR
+}
+
+/**
+ * Returns the set with the highest weight_kg (normal sets only)
+ */
+export function findHeaviestWeightPR(sets: WorkoutSet[]): PRRecord | null {
+    let best: PRRecord | null = null;
+
+    for (const set of sets) {
+        if (set.set_type !== 'normal') continue;
+        if (!set.weight_kg || !set.reps) continue;
+
+        if (!best || set.weight_kg > best.weight) {
+            best = {
+                weight: set.weight_kg,
+                reps: set.reps,
+                date: new Date(set.end_time),
+                workoutTitle: set.workout_title,
+            };
+        }
+    }
+
+    return best;
+}
+
+/**
+ * Returns the set with the highest estimated 1RM avg (normal sets only)
+ */
+export function findBest1RMPR(sets: WorkoutSet[]): PRRecord | null {
+    let best: PRRecord | null = null;
+    let bestOneRM = -Infinity;
+
+    for (const set of sets) {
+        if (set.set_type !== 'normal') continue;
+        if (!set.weight_kg || !set.reps) continue;
+
+        const oneRM = calculate1RMRange(set.weight_kg, set.reps).avg;
+
+        if (oneRM > bestOneRM) {
+            bestOneRM = oneRM;
+            best = {
+                weight: set.weight_kg,
+                reps: set.reps,
+                date: new Date(set.end_time),
+                workoutTitle: set.workout_title,
+                oneRM,
+            };
+        }
+    }
+
+    return best;
+}
+
+/**
  * Generate Y-axis ticks with 5kg or 10kg increments
  */
 export function generateYAxisTicks(min: number, max: number): number[] {

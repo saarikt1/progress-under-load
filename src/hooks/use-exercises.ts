@@ -9,6 +9,7 @@ interface Exercise {
     total_sets: number;
     last_session: string | null;
     latest_1rm: number | null;
+    has_recent_pr: boolean;
 }
 
 interface UseExercisesResult {
