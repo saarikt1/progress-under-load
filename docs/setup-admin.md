@@ -2,6 +2,8 @@
 
 To log in as an admin, you need to configure the local environment variables and ensure the admin user is bootstrapped in the database.
 
+Last synced: February 19, 2026.
+
 ## 1. Configure Environment Variables
 
 Create or edit `.env.local` in the project root:
@@ -9,13 +11,16 @@ Create or edit `.env.local` in the project root:
 ```bash
 # .env.local
 ADMIN_EMAIL=admin@example.com
-ADMIN_PASSWORD=change-this-password-to-something-secure
+ADMIN_PASSWORD=change-this-password-to-something-secure-and-long
 # Optional but recommended
 SESSION_TTL_DAYS=30
 PBKDF2_ITERATIONS=250000
 ```
 
-*Note: `PBKDF2_ITERATIONS` defaults to 250,000 if not set. For local dev you can lower it (e.g. 100,000) to speed up logins, but keep it high for production.*
+Notes:
+- `ADMIN_PASSWORD` must be at least 12 characters.
+- `PBKDF2_ITERATIONS` defaults to `250000` if not set.
+- `SESSION_TTL_DAYS` defaults to `30` if not set.
 
 ## 2. Apply Local Migrations
 
@@ -40,8 +45,8 @@ The system is designed to automatically create the admin user if no users exist 
 1.  Navigate to the **Login Page** (e.g., `http://localhost:3000/login`).
 2.  Attempt to log in with the credentials you set in `.env.local`.
     *   **Mechanism**: The login route (`/api/auth/login`) calls `ensureAdminBootstrap` before processing the login.
-    *   If the database is empty, it will create the admin user with your credentials.
-    *   If users already exist, it skips bootstrapping (so you must use the credentials that were first used to create the admin).
+    *   If the database is empty, it creates the initial admin user with your credentials.
+    *   If users already exist, bootstrap is skipped and your `.env.local` admin values will not overwrite existing accounts.
 
 ## 5. Verify Admin Access
 
@@ -53,4 +58,4 @@ The system is designed to automatically create the admin user if no users exist 
 
 1.  Use the **Create Invite** form on `/admin` to generate an invite link.
 2.  Share the link with the user.
-3.  The user visits `/accept-invite?code=...`, sets a password, and gets logged in.
+3.  The user visits `/accept-invite?code=...`, sets a password (12+ chars), and gets logged in.

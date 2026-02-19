@@ -2,6 +2,8 @@
 
 This roadmap breaks the project into phases that each deliver something usable/visible and can be validated. It assumes the architecture in `docs/plans/2026-02-03-gym-training-app-design.md`.
 
+Last synced: February 19, 2026.
+
 ## Phase 0 — Project Skeleton (local dev)
 
 **Outcome:** You can run the app locally and deploy a placeholder UI.
@@ -79,7 +81,6 @@ This roadmap breaks the project into phases that each deliver something usable/v
 
 **Outcome:** You can log in/out; routes are protected; admin bootstraps from env vars.
 **Status:** Complete (February 9, 2026).
-**Status:** Complete (February 9, 2026).
 
 - Implement login/logout and session cookie (`__Host-` pref).
 - Implement middleware/guards for protected pages and API routes.
@@ -112,10 +113,8 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - None beyond using the UI.
 
 ## Phase 5 — CSV Upload + Idempotent Import
-**Status:** Complete (February 9, 2026).
-
-
 **Outcome:** Uploading your CSV populates the database; re-uploading doesn’t duplicate.
+**Status:** Complete (February 9, 2026).
 
 - Authenticated CSV upload (multipart) to `/api/import`.
 - Parse/validate required columns; enforce size + row limits.
@@ -147,7 +146,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 - Global time period filter (3M, 12M, All Time) on dashboard.
 
 **Validation**
-- Bench/Deadlift/OHP/Squat cards render with 7d + ~3mo views.
+- Bench/Deadlift/OHP/Squat cards render with 3M, 12M, and All Time views.
 - Exercise detail matches expected points from CSV.
 
 **Manual input**
@@ -156,11 +155,19 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 7 — PR Detection + Highlights
 
 **Outcome:** The app surfaces “what got better” automatically.
+**Status:** In progress (partially delivered by February 19, 2026).
 
 - Compute and display:
   - Heaviest single PR.
   - Estimated 1RM PR.
 - Dashboard “New PRs” callouts (last 7 days) and all-time PR tiles on exercise pages.
+
+Implemented now:
+- All-time PR tiles on exercise detail pages.
+- Dashboard PR badge indicator on main-lift cards.
+
+Remaining for full completion:
+- Dedicated “New PRs” dashboard callout section with explicit last-7-days details.
 
 **Validation**
 - PRs appear on known dates from your sample data (spot-check).
@@ -172,6 +179,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 8 — AI Coach (post-upload comment)
 
 **Outcome:** After import, you get an encouraging summary using your recent training + PRs + notes.
+**Status:** Not started.
 
 - Provider-agnostic LLM adapter (start with one provider).
 - Post-import: build context (recent workouts + all-time PRs + relevant notes) and generate a short recap.
@@ -187,6 +195,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 9 — Coach Chat (contextual awareness)
 
 **Outcome:** Persistent chat UI that remembers context and respects user separation.
+**Status:** Not started (placeholder `/chat` page exists).
 
 - Chat page + always-available dashboard CTA.
 - Store chat messages per user in D1 (optional retention policy).
@@ -202,6 +211,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 10 — PWA + Polish
 
 **Outcome:** “Feels like an app” on mobile and is safe to use daily.
+**Status:** Not started.
 
 - Add PWA manifest + icons + installability.
 - Performance pass (chart rendering, query indexes).
@@ -218,6 +228,7 @@ This roadmap breaks the project into phases that each deliver something usable/v
 ## Phase 11 — Security Review & Operational Hardening
 
 **Outcome:** Confident production posture for a personal data app.
+**Status:** Not started.
 
 - Verify security checklist:
   - No `NEXT_PUBLIC_*` secrets; server-only modules guarded.

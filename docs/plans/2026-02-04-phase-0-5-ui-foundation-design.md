@@ -49,4 +49,4 @@ Deliver a consistent UI foundation (Tailwind + shadcn/ui + Radix primitives) and
   - Aliases: `@/components`, `@/lib/utils`.
 
 ## Status
-Planned as of February 4, 2026.
+Complete as of February 4, 2026.
