@@ -155,7 +155,7 @@ Last synced: February 19, 2026.
 ## Phase 7 — PR Detection + Highlights
 
 **Outcome:** The app surfaces “what got better” automatically.
-**Status:** In progress (partially delivered by February 19, 2026).
+**Status:** Complete (February 19, 2026).
 
 - Compute and display:
   - Heaviest single PR.
@@ -165,8 +165,6 @@ Last synced: February 19, 2026.
 Implemented now:
 - All-time PR tiles on exercise detail pages.
 - Dashboard PR badge indicator on main-lift cards.
-
-Remaining for full completion:
 - Dedicated “New PRs” dashboard callout section with explicit last-7-days details.
 
 **Validation**

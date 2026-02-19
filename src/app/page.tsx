@@ -24,9 +24,47 @@ interface ExerciseData {
   hasRecentPR: boolean;
 }
 
+interface PRHighlightEvent {
+  exercise_id: string;
+  exercise_key: string;
+  display_name: string;
+  pr_type: "heaviest_weight" | "estimated_1rm";
+  weight_kg: number;
+  reps: number;
+  estimated_1rm_kg: number | null;
+  achieved_at: string;
+  workout_title: string;
+}
+
 export default function Dashboard() {
   const [period, setPeriod] = useState<TimePeriod>("3M");
   const [exerciseData, setExerciseData] = useState<Record<string, ExerciseData>>({});
+  const [prHighlights, setPrHighlights] = useState<PRHighlightEvent[]>([]);
+  const [isPRHighlightsLoading, setIsPRHighlightsLoading] = useState(true);
+  const [prHighlightsError, setPrHighlightsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPRHighlights = async () => {
+      setIsPRHighlightsLoading(true);
+      setPrHighlightsError(null);
+
+      try {
+        const response = await fetch("/api/dashboard/pr-highlights");
+        if (!response.ok) {
+          throw new Error("Failed to fetch PR highlights");
+        }
+
+        const data = await response.json();
+        setPrHighlights(Array.isArray(data.events) ? data.events : []);
+      } catch {
+        setPrHighlightsError("Unable to load PR highlights right now.");
+      } finally {
+        setIsPRHighlightsLoading(false);
+      }
+    };
+
+    fetchPRHighlights();
+  }, []);
 
   useEffect(() => {
     const fetchMainLifts = async () => {
@@ -111,6 +149,45 @@ export default function Dashboard() {
           </Button>
         </div>
       </header>
+
+      {/* New PR highlights */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">New PRs (Last 7 Days)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {isPRHighlightsLoading ? (
+            <p className="text-sm text-muted-foreground">Loading...</p>
+          ) : prHighlightsError ? (
+            <p className="text-sm text-muted-foreground">{prHighlightsError}</p>
+          ) : prHighlights.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No new PRs in the last 7 days.
+            </p>
+          ) : (
+            <ul className="space-y-2">
+              {prHighlights.map((event, index) => {
+                const line =
+                  event.pr_type === "heaviest_weight"
+                    ? `${event.display_name}: ${event.weight_kg}kg x${event.reps} (Heaviest Weight)`
+                    : `${event.display_name}: Est. 1RM ${event.estimated_1rm_kg?.toFixed(1)}kg from ${event.weight_kg}kg x${event.reps}`;
+
+                return (
+                  <li
+                    key={`${event.exercise_id}-${event.pr_type}-${event.achieved_at}-${index}`}
+                    className="flex items-center justify-between gap-4 border-b pb-2 last:border-0 last:pb-0"
+                  >
+                    <p className="text-sm">{line}</p>
+                    <span className="text-xs text-muted-foreground">
+                      {format(new Date(event.achieved_at), "MMM d")}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Time period filter */}
       <div className="flex gap-2 border-b">
