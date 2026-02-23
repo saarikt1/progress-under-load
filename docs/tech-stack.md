@@ -2,7 +2,7 @@
 
 This document reflects the stack that is currently implemented in the repo.
 
-Last synced: February 19, 2026.
+Last synced: February 23, 2026.
 
 ## Chosen Stack (current)
 
@@ -60,9 +60,14 @@ Last synced: February 19, 2026.
 - D1 access via Cloudflare-provided bindings from server routes (via OpenNext Cloudflare context).
 - Migrations tracked as raw SQL in-repo and applied via Wrangler (prod/preview/local).
 
+## AI Integration
+
+- Native `fetch`-based adapter for OpenAI-compatible LLM endpoints (e.g., `gpt-4o-mini`).
+- Used to generate context-aware coach recaps of imported workouts.
+
 ## Planned, Not Yet Implemented
 
-- AI coach integration and chat persistence.
+- AI Coach chat interface and persistence (in progress).
 - PWA installability/offline layer.
 - Durable distributed rate limiting (KV or Durable Objects).
 - Optional monitoring/error-reporting integration.

@@ -2,7 +2,7 @@
 
 To log in as an admin, you need to configure the local environment variables and ensure the admin user is bootstrapped in the database.
 
-Last synced: February 19, 2026.
+Last synced: February 23, 2026.
 
 ## 1. Configure Environment Variables
 
@@ -12,15 +12,20 @@ Create or edit `.env.local` in the project root:
 # .env.local
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=change-this-password-to-something-secure-and-long
+LLM_API_KEY=your-api-key-here # OpenAI-compatible API key for AI Coach
+
 # Optional but recommended
 SESSION_TTL_DAYS=30
 PBKDF2_ITERATIONS=250000
+# LLM_BASE_URL=https://api.openai.com/v1
+# LLM_MODEL=gpt-4o-mini
 ```
 
 Notes:
 - `ADMIN_PASSWORD` must be at least 12 characters.
 - `PBKDF2_ITERATIONS` defaults to `250000` if not set.
 - `SESSION_TTL_DAYS` defaults to `30` if not set.
+- `LLM_API_KEY` is required for the AI Coach import recaps to work.
 
 ## 2. Apply Local Migrations
 

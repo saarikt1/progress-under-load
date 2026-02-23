@@ -2,7 +2,7 @@
 
 This roadmap breaks the project into phases that each deliver something usable/visible and can be validated. It assumes the architecture in `docs/plans/2026-02-03-gym-training-app-design.md`.
 
-Last synced: February 19, 2026.
+Last synced: February 23, 2026.
 
 ## Phase 0 — Project Skeleton (local dev)
 
@@ -177,10 +177,11 @@ Implemented now:
 ## Phase 8 — AI Coach (post-upload comment)
 
 **Outcome:** After import, you get an encouraging summary using your recent training + PRs + notes.
-**Status:** Not started.
+**Status:** Complete (February 23, 2026).
 
-- Provider-agnostic LLM adapter (start with one provider).
-- Post-import: build context (recent workouts + all-time PRs + relevant notes) and generate a short recap.
+- Provider-agnostic LLM adapter (fetch-based implementation).
+- Post-import: build context (recent workouts + all-time PRs + import summary) and generate a short recap.
+- "Coach prompt" is highly structured to ask for insights on main lifts and progress anomalies.
 - Store the generated recap tied to the import (so it’s repeatable/viewable later).
 
 **Validation**
@@ -188,7 +189,7 @@ Implemented now:
 - No API keys appear in client JS or network responses.
 
 **Manual input**
-- Provide LLM provider endpoint/key as Cloudflare env vars.
+- Provide `LLM_API_KEY` endpoint/key as Cloudflare env vars. Optionally configure `LLM_BASE_URL` and `LLM_MODEL`.
 
 ## Phase 9 — Coach Chat (contextual awareness)
 
