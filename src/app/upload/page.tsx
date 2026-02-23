@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
@@ -19,6 +20,8 @@ export default function UploadPage() {
   const [uploading, setUploading] = useState(false);
   const [result, setResult] = useState<ImportResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [coachComment, setCoachComment] = useState<string | null>(null);
+  const [coachLoading, setCoachLoading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,6 +57,25 @@ export default function UploadPage() {
       }
 
       setResult(data);
+
+      if (data.import_id) {
+        setCoachLoading(true);
+        fetch("/api/coach", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ import_id: data.import_id }),
+        })
+          .then((r) => r.json())
+          .then((coachData: { comment?: string | null }) => {
+            setCoachComment(coachData.comment ?? null);
+          })
+          .catch(() => {
+            setCoachComment(null);
+          })
+          .finally(() => {
+            setCoachLoading(false);
+          });
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -65,6 +87,8 @@ export default function UploadPage() {
     setSelectedFile(null);
     setResult(null);
     setError(null);
+    setCoachComment(null);
+    setCoachLoading(false);
   };
 
   return (
@@ -203,6 +227,52 @@ export default function UploadPage() {
                   </div>
                 )}
               </div>
+
+              {(coachLoading || coachComment) && (
+                <div className="mt-4 p-4 bg-muted/50 border rounded-md">
+                  <p className="text-sm font-medium mb-1">Coach Says</p>
+                  {coachLoading ? (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <svg
+                        className="h-4 w-4 animate-spin"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v8H4z"
+                        />
+                      </svg>
+                      Generating coach feedback…
+                    </div>
+                  ) : (
+                    <ReactMarkdown
+                      components={{
+                        h1: ({ children }) => <h3 className="text-base font-semibold mt-3 mb-1">{children}</h3>,
+                        h2: ({ children }) => <h3 className="text-base font-semibold mt-3 mb-1">{children}</h3>,
+                        h3: ({ children }) => <p className="text-sm font-semibold mt-2 mb-0.5">{children}</p>,
+                        p: ({ children }) => <p className="text-sm mb-2">{children}</p>,
+                        ul: ({ children }) => <ul className="text-sm list-disc pl-4 mb-2 space-y-0.5">{children}</ul>,
+                        ol: ({ children }) => <ol className="text-sm list-decimal pl-4 mb-2 space-y-0.5">{children}</ol>,
+                        li: ({ children }) => <li>{children}</li>,
+                        strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                        hr: () => <hr className="my-3 border-border" />,
+                      }}
+                    >
+                      {coachComment}
+                    </ReactMarkdown>
+                  )}
+                </div>
+              )}
 
               <div className="flex gap-3 pt-4">
                 <Button asChild className="flex-1">

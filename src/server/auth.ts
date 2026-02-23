@@ -20,12 +20,15 @@ export type D1Database = {
   prepare: (query: string) => D1PreparedStatement;
 };
 
-type AuthEnv = {
+export type AuthEnv = {
   DB: D1Database;
   ADMIN_EMAIL?: string;
   ADMIN_PASSWORD?: string;
   PBKDF2_ITERATIONS?: string;
   SESSION_TTL_DAYS?: string;
+  LLM_API_KEY?: string;
+  LLM_BASE_URL?: string;
+  LLM_MODEL?: string;
 };
 
 type UserRow = {
@@ -98,6 +101,9 @@ export async function getAuthEnv(): Promise<AuthEnv> {
     ADMIN_PASSWORD: env.ADMIN_PASSWORD ?? process.env.ADMIN_PASSWORD,
     PBKDF2_ITERATIONS: env.PBKDF2_ITERATIONS ?? process.env.PBKDF2_ITERATIONS,
     SESSION_TTL_DAYS: env.SESSION_TTL_DAYS ?? process.env.SESSION_TTL_DAYS,
+    LLM_API_KEY: env.LLM_API_KEY ?? process.env.LLM_API_KEY,
+    LLM_BASE_URL: env.LLM_BASE_URL ?? process.env.LLM_BASE_URL,
+    LLM_MODEL: env.LLM_MODEL ?? process.env.LLM_MODEL,
   };
 }
 
