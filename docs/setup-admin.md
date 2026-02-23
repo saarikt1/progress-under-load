@@ -16,14 +16,14 @@ LLM_API_KEY=your-api-key-here # OpenAI-compatible API key for AI Coach
 
 # Optional but recommended
 SESSION_TTL_DAYS=30
-PBKDF2_ITERATIONS=250000
+PBKDF2_ITERATIONS=100000
 # LLM_BASE_URL=https://api.openai.com/v1
 # LLM_MODEL=gpt-4o-mini
 ```
 
 Notes:
 - `ADMIN_PASSWORD` must be at least 12 characters.
-- `PBKDF2_ITERATIONS` defaults to `250000` if not set.
+- `PBKDF2_ITERATIONS` defaults to `100000` if not set (Cloudflare maximum).
 - `SESSION_TTL_DAYS` defaults to `30` if not set.
 - `LLM_API_KEY` is required for the AI Coach import recaps to work.
 

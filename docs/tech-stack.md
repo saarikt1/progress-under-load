@@ -51,7 +51,7 @@ Last synced: February 23, 2026.
 
 ## Auth & Security Libraries
 
-- Password hashing: PBKDF2-HMAC-SHA256 via WebCrypto with per-user salt and strong iterations (default 250,000).
+- Password hashing: PBKDF2-HMAC-SHA256 via WebCrypto with per-user salt and strong iterations (default 100,000 for Cloudflare limits).
 - Session tokens: random high-entropy token in cookie; store only hash in D1 (SHA-256).
 - Rate limiting: simple in-memory per-IP/per-email limiter on login.
 

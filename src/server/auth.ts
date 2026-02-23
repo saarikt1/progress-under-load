@@ -1,6 +1,6 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-const DEFAULT_PBKDF2_ITERATIONS = 250_000;
+const DEFAULT_PBKDF2_ITERATIONS = 100_000;
 const DEFAULT_SESSION_TTL_DAYS = 30;
 const PASSWORD_MIN_LENGTH = 12;
 const SESSION_COOKIE_NAME = "__Host-session";
