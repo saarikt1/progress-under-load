@@ -8,8 +8,6 @@ import {
 import type { WorkoutSet } from "@/lib/one-rm";
 import { findHeaviestWeightPR, findBest1RMPR } from "@/lib/one-rm";
 
-export const runtime = "edge";
-
 export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }

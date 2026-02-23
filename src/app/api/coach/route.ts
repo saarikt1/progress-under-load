@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAuthEnv, getSessionByToken, getCookieValue, getSessionCookieName } from "@/server/auth";
 import { generateAndStoreCoachComment } from "@/server/coach";
 
-export const runtime = "edge";
-
 export async function POST(request: NextRequest) {
   try {
     const env = await getAuthEnv();

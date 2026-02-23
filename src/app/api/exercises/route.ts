@@ -7,8 +7,6 @@ import {
 } from "@/server/auth";
 import { calculate1RMRange } from "@/lib/one-rm";
 
-export const runtime = "edge";
-
 interface ExerciseSummary {
     id: string;
     display_name: string;

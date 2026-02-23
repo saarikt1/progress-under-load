@@ -8,8 +8,6 @@ import {
   getSessionCookieName,
 } from "@/server/auth";
 
-export const runtime = "edge";
-
 const PR_WINDOW_DAYS = 7;
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
