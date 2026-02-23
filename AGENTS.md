@@ -26,3 +26,7 @@ Always use Conventional Commits format (type[optional scope]: summary). Also add
 ## Ask Before Committing
 
 The assistant must always ask the user for permission before creating any commits.
+
+## Clean Up Temporary Files
+
+The assistant must always clean up any temporary files, test scripts, or log files it creates during debugging or development once they are no longer needed.
