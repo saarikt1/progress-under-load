@@ -1,6 +1,8 @@
 import { InvitesList } from "./invites-list";
 import { CreateInviteForm } from "./create-invite-form";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminPage() {
   return (
     <section className="page space-y-8">
