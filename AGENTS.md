@@ -23,6 +23,6 @@ When errors, warnings, or access issues appear and the cause is not clear, stop 
 
 Always use Conventional Commits format (type[optional scope]: summary). Also add a short summary of the changes in the body of the commit message in a bullet list format.
 
-## Commits Without Explicit Request
+## Ask Before Committing
 
-The assistant may create commits when changes are complete without needing an explicit user request.
+The assistant must always ask the user for permission before creating any commits.
