@@ -104,67 +104,71 @@ export async function importCSV(
         }
     }
 
-    // Process each candidate row
+    // Pre-cache existing data to avoid N+1 queries making thousands of subrequests
+    const existingSetsResult = await db
+        .prepare("SELECT source_row_hash FROM sets WHERE user_id = ?")
+        .bind(userId)
+        .all<{ source_row_hash: string }>();
+    const existingHashes = new Set(
+        existingSetsResult.results.map((r) => r.source_row_hash)
+    );
+
+    const existingExercisesResult = await db
+        .prepare("SELECT id, exercise_key, display_name FROM exercises WHERE user_id = ?")
+        .bind(userId)
+        .all<{ id: string; exercise_key: string; display_name: string }>();
+
+    type ExerciseInfo = { id: string; display_name: string };
+    const exercisesMap = new Map<string, ExerciseInfo>();
+    for (const ex of existingExercisesResult.results) {
+        exercisesMap.set(ex.exercise_key, { id: ex.id, display_name: ex.display_name });
+    }
+
+    const statementsToBatch: any[] = [];
+    // Process each candidate row and build statements
     for (let i = 0; i < candidateRows.length; i++) {
         const row = candidateRows[i];
-        const sourceRowHash = await generateSourceRowHash(row);
 
         try {
-            // Check if this row already exists for this user
-            const existing = await db
-                .prepare(
-                    "SELECT id FROM sets WHERE user_id = ? AND source_row_hash = ?"
-                )
-                .bind(userId, sourceRowHash)
-                .first<{ id: string }>();
+            const sourceRowHash = await generateSourceRowHash(row);
 
-            if (existing) {
+            // Check memory cache
+            if (existingHashes.has(sourceRowHash)) {
                 // Skip duplicate
                 continue;
             }
+            existingHashes.add(sourceRowHash);
 
-            // Normalize exercise key
             const exerciseKey = normalizeExerciseKey(row.exerciseTitle);
-
-            // Upsert exercise (create if doesn't exist, update display_name if exists)
-            let exercise = await db
-                .prepare(
-                    "SELECT id, display_name FROM exercises WHERE user_id = ? AND exercise_key = ?"
-                )
-                .bind(userId, exerciseKey)
-                .first<{ id: string; display_name: string }>();
+            let exercise = exercisesMap.get(exerciseKey);
 
             if (!exercise) {
-                // Insert new exercise
                 const exerciseId = createUUID();
-                await db
-                    .prepare(
+                statementsToBatch.push(
+                    db.prepare(
                         "INSERT INTO exercises (id, user_id, exercise_key, display_name) VALUES (?, ?, ?, ?)"
-                    )
-                    .bind(exerciseId, userId, exerciseKey, row.exerciseTitle)
-                    .run();
+                    ).bind(exerciseId, userId, exerciseKey, row.exerciseTitle)
+                );
                 exercise = { id: exerciseId, display_name: row.exerciseTitle };
-            } else {
-                // Update display_name to the latest seen (optional: could skip this)
-                await db
-                    .prepare(
+                exercisesMap.set(exerciseKey, exercise);
+            } else if (exercise.display_name !== row.exerciseTitle) {
+                statementsToBatch.push(
+                    db.prepare(
                         "UPDATE exercises SET display_name = ?, updated_at = datetime('now') WHERE id = ?"
-                    )
-                    .bind(row.exerciseTitle, exercise.id)
-                    .run();
+                    ).bind(row.exerciseTitle, exercise.id)
+                );
+                exercise.display_name = row.exerciseTitle;
             }
 
-            // Insert the set
             const setId = createUUID();
-            await db
-                .prepare(
+            statementsToBatch.push(
+                db.prepare(
                     `INSERT INTO sets (
-            id, user_id, exercise_id, workout_title, start_time, end_time,
-            superset_id, set_index, set_type, description, weight_kg, reps,
-            rpe, distance_km, duration_seconds, exercise_notes, source_row_hash
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-                )
-                .bind(
+                        id, user_id, exercise_id, workout_title, start_time, end_time,
+                        superset_id, set_index, set_type, description, weight_kg, reps,
+                        rpe, distance_km, duration_seconds, exercise_notes, source_row_hash
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+                ).bind(
                     setId,
                     userId,
                     exercise.id,
@@ -183,13 +187,27 @@ export async function importCSV(
                     row.exerciseNotes,
                     sourceRowHash
                 )
-                .run();
+            );
 
             rowsInserted++;
         } catch (error) {
             errors.push(
-                `Row ${i + 1}: ${error instanceof Error ? error.message : "Import failed"}`
+                `Row ${i + 1}: ${error instanceof Error ? error.message : "Import failed to build"}`
             );
+        }
+    }
+
+    // Execute generated statements using D1 batch in chunks of 50 to avoid limits
+    if (statementsToBatch.length > 0) {
+        const chunkSize = 50;
+        for (let i = 0; i < statementsToBatch.length; i += chunkSize) {
+            const chunk = statementsToBatch.slice(i, i + chunkSize);
+            try {
+                await db.batch(chunk);
+            } catch (err) {
+                console.error("Batch failure:", err);
+                errors.push("Failed to execute database batch insertion");
+            }
         }
     }
 

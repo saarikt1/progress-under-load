@@ -18,6 +18,7 @@ export type D1PreparedStatement = {
 
 export type D1Database = {
   prepare: (query: string) => D1PreparedStatement;
+  batch: <T = Record<string, unknown>>(statements: D1PreparedStatement[]) => Promise<{ results: T[] }[]>;
 };
 
 export type AuthEnv = {

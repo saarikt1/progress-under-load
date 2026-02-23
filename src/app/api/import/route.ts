@@ -9,8 +9,6 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 // Max rows to import
 const MAX_ROWS = 10_000;
 
-export const runtime = "edge";
-
 export async function POST(request: NextRequest) {
     try {
         // Get auth environment and DB
