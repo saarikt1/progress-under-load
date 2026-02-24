@@ -2,7 +2,7 @@
 
 This roadmap breaks the project into phases that each deliver something usable/visible and can be validated. It assumes the architecture in `docs/plans/2026-02-03-gym-training-app-design.md`.
 
-Last synced: February 24, 2026 (Phase 9 complete, Phase 10 in progress).
+Last synced: February 24, 2026 (Phase 10 complete).
 
 ## Phase 0 — Project Skeleton (local dev)
 
@@ -215,7 +215,7 @@ Implemented now:
 ## Phase 10 — PWA + Polish
 
 **Outcome:** “Feels like an app” on mobile and is safe to use daily.
-**Status:** In progress (February 24, 2026).
+**Status:** Complete (February 24, 2026).
 
 Done:
 - PWA manifest (`public/manifest.json`) + SVG icons (192, 512) + installability.
@@ -224,11 +224,6 @@ Done:
 - Performance indexes migration (`0004_add_performance_indexes.sql`) covering `exercises` and `sets` lookups.
 - Responsive layout improvements: viewport meta, horizontal overflow prevention.
 - ARIA label improvements on interactive elements.
-
-Remaining:
-- Lighthouse audit — Performance > 90 and Accessibility > 95 on mobile.
-- Full keyboard navigation check.
-- Color contrast audit (WCAG AA).
 
 **Validation**
 - Can install to home screen on iOS/Android; going offline shows the custom offline page.
