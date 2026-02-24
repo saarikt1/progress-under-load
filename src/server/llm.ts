@@ -18,7 +18,7 @@ export async function generateText(prompt: string, env: AuthEnv): Promise<string
     body: JSON.stringify({
       model,
       messages: [{ role: "user", content: prompt }],
-      max_tokens: 300,
+      max_tokens: 1024,
     }),
   });
 

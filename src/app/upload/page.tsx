@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
@@ -256,6 +257,7 @@ export default function UploadPage() {
                     </div>
                   ) : (
                     <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
                       components={{
                         h1: ({ children }) => <h3 className="text-base font-semibold mt-3 mb-1">{children}</h3>,
                         h2: ({ children }) => <h3 className="text-base font-semibold mt-3 mb-1">{children}</h3>,
@@ -266,6 +268,18 @@ export default function UploadPage() {
                         li: ({ children }) => <li>{children}</li>,
                         strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
                         hr: () => <hr className="my-3 border-border" />,
+                        table: ({ children }) => (
+                          <div className="overflow-x-auto mb-2">
+                            <table className="text-sm w-full border-collapse">{children}</table>
+                          </div>
+                        ),
+                        thead: ({ children }) => <thead>{children}</thead>,
+                        tbody: ({ children }) => <tbody>{children}</tbody>,
+                        tr: ({ children }) => <tr className="border-b border-border last:border-0">{children}</tr>,
+                        th: ({ children }) => (
+                          <th className="text-left font-semibold py-1 pr-3 text-muted-foreground">{children}</th>
+                        ),
+                        td: ({ children }) => <td className="py-1 pr-3">{children}</td>,
                       }}
                     >
                       {coachComment}
