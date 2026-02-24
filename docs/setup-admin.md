@@ -2,7 +2,7 @@
 
 To log in as an admin, you need to configure the local environment variables and ensure the admin user is bootstrapped in the database.
 
-Last synced: February 23, 2026.
+Last synced: February 24, 2026.
 
 ## 1. Configure Environment Variables
 

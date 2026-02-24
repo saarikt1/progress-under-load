@@ -2,7 +2,7 @@
 
 This document reflects the stack that is currently implemented in the repo.
 
-Last synced: February 23, 2026.
+Last synced: February 24, 2026.
 
 ## Chosen Stack (current)
 
@@ -63,11 +63,19 @@ Last synced: February 23, 2026.
 ## AI Integration
 
 - Native `fetch`-based adapter for OpenAI-compatible LLM endpoints (e.g., `gpt-4o-mini`).
-- Used to generate context-aware coach recaps of imported workouts.
+- Post-import coach comment: builds context (recent workouts + all-time PRs + import summary) and generates a short recap via LLM.
+- Persistent coach chat (`/chat`): multi-turn conversation stored in D1; system prompt auto-built from last 5 sessions, all-time PRs, and user-editable program description.
+- Configure via `LLM_API_KEY`, `LLM_BASE_URL` (optional), `LLM_MODEL` (optional) env vars.
+
+## PWA & Offline
+
+- `public/manifest.json`: installable web app manifest (name, theme color `#09090b`, display `standalone`).
+- `public/service-worker.js`: cache strategies — stale-while-revalidate for static assets, network-first for HTML, network-only for API routes.
+- `public/offline.html`: friendly offline fallback page served when network is unavailable.
+- Icons: `public/icon-192.svg` and `public/icon-512.svg`.
+- `src/components/pwa-register.tsx`: registers the service worker in production (included in root layout).
 
 ## Planned, Not Yet Implemented
 
-- AI Coach chat interface and persistence (in progress).
-- PWA installability/offline layer.
 - Durable distributed rate limiting (KV or Durable Objects).
 - Optional monitoring/error-reporting integration.

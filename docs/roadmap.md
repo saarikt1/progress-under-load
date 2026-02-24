@@ -2,7 +2,7 @@
 
 This roadmap breaks the project into phases that each deliver something usable/visible and can be validated. It assumes the architecture in `docs/plans/2026-02-03-gym-training-app-design.md`.
 
-Last synced: February 23, 2026 (Phase 9 complete).
+Last synced: February 24, 2026 (Phase 9 complete, Phase 10 in progress).
 
 ## Phase 0 — Project Skeleton (local dev)
 
@@ -215,19 +215,28 @@ Implemented now:
 ## Phase 10 — PWA + Polish
 
 **Outcome:** “Feels like an app” on mobile and is safe to use daily.
-**Status:** Not started.
+**Status:** In progress (February 24, 2026).
 
-- Add PWA manifest + icons + installability.
-- Performance pass (chart rendering, query indexes).
-- Accessibility pass (keyboard nav, contrast).
-- Responsive design check. Should work on iPhone 16 pro.
+Done:
+- PWA manifest (`public/manifest.json`) + SVG icons (192, 512) + installability.
+- Service worker (`public/service-worker.js`) with stale-while-revalidate for static assets, network-first for HTML, offline fallback page (`public/offline.html`).
+- Service worker registration component (`src/components/pwa-register.tsx`) wired into root layout.
+- Performance indexes migration (`0004_add_performance_indexes.sql`) covering `exercises` and `sets` lookups.
+- Responsive layout improvements: viewport meta, horizontal overflow prevention.
+- ARIA label improvements on interactive elements.
+
+Remaining:
+- Lighthouse audit — Performance > 90 and Accessibility > 95 on mobile.
+- Full keyboard navigation check.
+- Color contrast audit (WCAG AA).
 
 **Validation**
-- Can install to home screen; offline shows a friendly state (even if data isn’t fully offline).
-- Export works and can be re-imported.
+- Can install to home screen on iOS/Android; going offline shows the custom offline page.
+- Lighthouse Performance score > 90 on mobile.
+- Lighthouse Accessibility score > 95.
 
 **Manual input**
-- Provide icons (or approve generated placeholders).
+- None (icons generated as SVG placeholders).
 
 ## Phase 11 — Security Review & Operational Hardening
 
