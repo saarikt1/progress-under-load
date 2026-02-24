@@ -190,7 +190,11 @@ export default function Dashboard() {
       </Card>
 
       {/* Time period filter */}
-      <div className="flex gap-2 border-b overflow-x-auto pb-1 scrollbar-hide">
+      <div
+        className="flex gap-2 border-b overflow-x-auto pb-1 scrollbar-hide"
+        role="group"
+        aria-label="Time period filter"
+      >
         {(Object.keys(TIME_PERIODS) as TimePeriod[]).map((p) => (
           <button
             key={p}
@@ -199,6 +203,8 @@ export default function Dashboard() {
               : "text-muted-foreground hover:text-foreground"
               }`}
             onClick={() => setPeriod(p)}
+            aria-pressed={period === p}
+            aria-label={`Filter by ${TIME_PERIODS[p].label}`}
           >
             {TIME_PERIODS[p].label}
           </button>
