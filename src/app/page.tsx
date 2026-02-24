@@ -190,7 +190,7 @@ export default function Dashboard() {
       </Card>
 
       {/* Time period filter */}
-      <div className="flex gap-2 border-b">
+      <div className="flex gap-2 border-b overflow-x-auto pb-1 scrollbar-hide">
         {(Object.keys(TIME_PERIODS) as TimePeriod[]).map((p) => (
           <button
             key={p}

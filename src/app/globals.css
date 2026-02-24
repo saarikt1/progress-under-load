@@ -32,7 +32,7 @@
   }
 
   body {
-    @apply min-h-screen bg-background text-foreground;
+    @apply min-h-screen bg-background text-foreground overflow-x-hidden;
     font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   }
 

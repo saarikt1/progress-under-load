@@ -93,12 +93,14 @@ export default function UploadPage() {
   };
 
   return (
-    <section className="page">
-      <h1>Upload CSV</h1>
-      <p className="muted">
-        Upload your training CSV to import workout data and analyze your
-        progress.
-      </p>
+    <section className="space-y-6">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-semibold sm:text-4xl">Upload CSV</h1>
+        <p className="max-w-xl text-sm text-muted-foreground">
+          Upload your training CSV to import workout data and analyze your
+          progress.
+        </p>
+      </header>
 
       <div className="mt-8 max-w-2xl">
         {!result && (
