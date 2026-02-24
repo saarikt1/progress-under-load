@@ -2,7 +2,7 @@
 
 This roadmap breaks the project into phases that each deliver something usable/visible and can be validated. It assumes the architecture in `docs/plans/2026-02-03-gym-training-app-design.md`.
 
-Last synced: February 23, 2026.
+Last synced: February 23, 2026 (Phase 9 complete).
 
 ## Phase 0 — Project Skeleton (local dev)
 
@@ -194,18 +194,23 @@ Implemented now:
 ## Phase 9 — Coach Chat (contextual awareness)
 
 **Outcome:** Persistent chat UI that remembers context and respects user separation.
-**Status:** Not started (placeholder `/chat` page exists).
+**Status:** Complete (February 23, 2026).
 
-- Chat page + always-available dashboard CTA.
-- Store chat messages per user in D1 (optional retention policy).
-- Context builder uses: recent workouts, PRs, and relevant notes; includes conversation history.
+- Full `/chat` page: multi-turn conversation with the AI coach, messages persist in D1.
+- Coach context: last 5 training sessions + all-time PRs for main lifts + user-editable training program description.
+- "Edit context" collapsible panel in the chat page for editing the program prompt.
+- 20-message sliding window sent to LLM per call; messages older than 90 days pruned automatically.
+- User-level isolation: each user's `chat_messages` rows are scoped by `user_id`.
+- New migration: `0004_chat.sql` (`chat_messages` table + `program_prompt` on `users`).
+- New API routes: `GET/POST /api/chat`, `PATCH /api/chat/program`.
 
 **Validation**
 - Chat works for both users; context never crosses accounts.
-- Chat still works after refreshing or switching devices (if sessions persist).
+- Chat still works after refreshing or switching devices (sessions persist).
+- Reload the chat page — history is preserved.
 
 **Manual input**
-- Decide retention window (e.g., last 90 days) if you care.
+- None.
 
 ## Phase 10 — PWA + Polish
 
@@ -216,7 +221,6 @@ Implemented now:
 - Performance pass (chart rendering, query indexes).
 - Accessibility pass (keyboard nav, contrast).
 - Responsive design check. Should work on iPhone 16 pro.
-- Backup/export: “download my data” (DB→CSV or JSON).
 
 **Validation**
 - Can install to home screen; offline shows a friendly state (even if data isn’t fully offline).

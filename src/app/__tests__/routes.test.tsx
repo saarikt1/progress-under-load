@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 vi.mock("@/app/admin/invites-list", () => ({
   InvitesList: () => <div>Invites list</div>,
@@ -22,7 +22,7 @@ describe("Route stubs", () => {
 
   it("renders the chat page heading", () => {
     render(<ChatPage />);
-    expect(screen.getByRole("heading", { name: "Chat" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Chat with your coach" })).toBeInTheDocument();
   });
 
   it("renders the admin page heading", () => {
