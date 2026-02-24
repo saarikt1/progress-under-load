@@ -83,13 +83,15 @@ export default function ExerciseDetailPage() {
 
             {/* Chart tabs */}
             <div className="space-y-4">
-                <div className="flex border-b">
+                <div className="flex border-b" role="tablist" aria-label="Chart views">
                     <button
                         className={`px-4 py-2 text-sm font-medium transition-colors ${activeView === "1rm"
                             ? "border-b-2 border-primary text-foreground"
                             : "text-muted-foreground hover:text-foreground"
                             }`}
                         onClick={() => setActiveView("1rm")}
+                        role="tab"
+                        aria-selected={activeView === "1rm"}
                     >
                         One Rep Max
                     </button>
@@ -99,6 +101,8 @@ export default function ExerciseDetailPage() {
                             : "text-muted-foreground hover:text-foreground"
                             }`}
                         onClick={() => setActiveView("heaviest")}
+                        role="tab"
+                        aria-selected={activeView === "heaviest"}
                     >
                         Heaviest Weight
                     </button>
