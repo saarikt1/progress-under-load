@@ -15,7 +15,9 @@ export default function AppShell({ children }: AppShellProps) {
         </div>
         <Nav />
       </header>
-      <main className="mx-auto mt-10 w-full max-w-6xl">{children}</main>
+      <main className="mx-auto mt-10 w-full max-w-6xl px-2 sm:px-0">
+        {children}
+      </main>
     </div>
   );
 }
