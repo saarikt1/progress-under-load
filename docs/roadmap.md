@@ -215,6 +215,7 @@ Implemented now:
 - Add PWA manifest + icons + installability.
 - Performance pass (chart rendering, query indexes).
 - Accessibility pass (keyboard nav, contrast).
+- Responsive design check. Should work on iPhone 16 pro.
 - Backup/export: “download my data” (DB→CSV or JSON).
 
 **Validation**
