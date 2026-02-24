@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import AppShell from "@/components/app-shell";
 import Toaster from "@/components/ui/toaster";
+import { PwaRegister } from "@/components/pwa-register";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,6 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Progress Under Load",
   description: "Gym training analytics and coaching.",
+  manifest: "/manifest.json",
 };
 
 export const viewport: import("next").Viewport = {
@@ -24,6 +26,7 @@ export const viewport: import("next").Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: "#09090b",
 };
 
 export default function RootLayout({
@@ -35,7 +38,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Toaster>
-          <AppShell>{children}</AppShell>
+          <AppShell>
+            {children}
+            <PwaRegister />
+          </AppShell>
         </Toaster>
       </body>
     </html>
